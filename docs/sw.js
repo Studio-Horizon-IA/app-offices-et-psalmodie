@@ -8,10 +8,10 @@
  * fonctionne.
  */
 
-const VERSION = '1787709912867';
+const VERSION = '1787712828038';
 const CACHE_COQUILLE = `coquille-${VERSION}`;
 const CACHE_TEXTES = 'aelf-textes-v1';
-const PRECACHE = ["./","./assets/index-Br1D15k7.css","./assets/index-CKI_SJ0v.js","./icons/icon-180.png","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/icon-maskable.svg","./icons/icon.svg","./index.html","./manifest.webmanifest"];
+const PRECACHE = ["./","./assets/index-7_lbLJMr.js","./assets/index-BrtaDhK_.css","./icons/icon-180.png","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/icon-maskable.svg","./icons/icon.svg","./index.html","./manifest.webmanifest"];
 
 const AELF = 'https://api.aelf.org';
 

@@ -133,6 +133,38 @@ export function rendreTiroirParametres() {
       ),
       ligneChoix('Instrument', null, INSTRUMENTS, p.instrument, (instrument) =>
         reglerParametre({ instrument })
+      ),
+      ligneBascule(
+        'Afficher les notes',
+        'Le nom des notes au-dessus des syllabes des cadences.',
+        p.afficherNotes,
+        (afficherNotes) => {
+          reglerParametre({ afficherNotes });
+          actions.rafraichir();
+        }
+      ),
+      el(
+        'div.reglage',
+        {},
+        el(
+          'span.reglage-texte',
+          {},
+          el('span.reglage-nom', {}, 'Allure du chant'),
+          el('span.reglage-aide', {}, 'Ralentir aide à suivre le texte en apprenant.')
+        )
+      ),
+      segments(
+        'Allure du chant',
+        [
+          { id: 0.7, nom: 'Lente' },
+          { id: 1, nom: 'Normale' },
+          { id: 1.3, nom: 'Vive' },
+        ],
+        p.allureChant,
+        (allureChant) => {
+          reglerParametre({ allureChant });
+          rendreTiroirParametres();
+        }
       )
     )
   );

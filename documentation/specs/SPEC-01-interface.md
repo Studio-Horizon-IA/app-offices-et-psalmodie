@@ -90,8 +90,12 @@ Traitements particuliers du corps :
   atténué, italique.
 
 Les blocs marqués `psalmodiable` (psaumes, cantiques évangéliques, psaume
-responsorial) portent un bouton **« Donner le ton »** qui ouvre la feuille
-psalmodie.
+responsorial) s'affichent **pointés** : trait de récitation sur la teneur, nom
+des notes au-dessus des syllabes de cadence, marques `+` et `*` mises en
+évidence, un bouton ▶ devant chaque verset et une barre **« Chanter »** sous le
+psaume. Voir [SPEC-04](SPEC-04-psalmodie.md#pointage-et-chant-du-texte). Si le
+pointage n'aboutit pas, le bloc retombe sur l'affichage ordinaire et le simple
+bouton « Donner le ton ».
 
 ### États
 

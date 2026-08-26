@@ -58,6 +58,13 @@ Conventions d'identifiants, de priorité et de statut : voir le
 | EF-PSAL-06 | Le ton est accessible depuis la barre du haut et depuis chaque psaume ou cantique. | S | Croquis (♪ dans la barre) | ✅ |
 | EF-PSAL-07 | Une écoute en cours peut être arrêtée, et une nouvelle écoute interrompt la précédente. | S | Déduit | ✅ |
 | EF-PSAL-08 | Les formules complètes (toutes les différences par mode) sont proposées. | W | Déduit | ⛔ Une cadence courante par ton ; limite énoncée dans l'interface. |
+| EF-PSAL-09 | Chaque psaume et cantique s'affiche **pointé** : trait de récitation sur la teneur, cadences distinguées, marques `+` et `*` mises en évidence. | M | Croquis 2 (`respecte la notation —, †, *`) | ✅ |
+| EF-PSAL-10 | Le nom des notes est posé au-dessus des syllabes qui les portent. | M | Croquis 2 (`faire suivre les notes avec les syllabes`) | ✅ Désactivable dans les paramètres |
+| EF-PSAL-11 | Un bouton chante le psaume entier sur le ton choisi, en surlignant la syllabe en cours. | M | Croquis 2 (`Ajouter piton play`) | ✅ |
+| EF-PSAL-12 | Un bouton par verset permet de reprendre ce seul verset. | S | Déduit | ✅ |
+| EF-PSAL-13 | L'allure du chant est réglable, pour suivre en apprenant. | S | Déduit du but (`apprendre aux néophytes`) | ✅ Lente / normale / vive |
+| EF-PSAL-14 | Le pointage et le chant s'appliquent à **toutes** les parties psalmodiées de **tous** les offices. | M | Croquis 2 (`APPLIQUER À CHAQUES PARTIES DE CHAQUE OFFICE`) | ✅ 12 parties vérifiées, dont le psaume de la messe |
+| EF-PSAL-15 | Le texte affiché ne peut en aucun cas différer de celui de l'AELF ; en cas d'écart de reconstruction, l'application renonce au pointage. | M | Technique | ✅ |
 
 ## EF-OFF — Mode hors connexion
 

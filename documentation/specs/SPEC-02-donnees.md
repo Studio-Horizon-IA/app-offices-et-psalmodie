@@ -101,7 +101,7 @@ Bloc = {
   ref: string | null,        // « Psaume 23 », « Mt 23, 23-26 »
   html: string,              // HTML brut de l'AELF, assaini à l'insertion
   source: string | null,     // « D. Rimaud — CNPL », ou l'intro lue
-  psalmodiable: boolean      // affiche le bouton « Donner le ton »
+  psalmodiable: boolean      // affiche le texte pointé et le chant suivi
 }
 ```
 

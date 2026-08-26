@@ -16,6 +16,8 @@ numéro de ligne, afin de rester justes après remaniement.
 
 ## Du croquis aux exigences
 
+### Croquis d'ensemble
+
 | Élément du croquis | Exigences |
 | --- | --- |
 | `OFFICES & PSALMODIE` (titre) | EF-PWA-01, EF-PWA-03 |
@@ -36,6 +38,17 @@ numéro de ligne, afin de rester justes après remaniement.
 | `[Conserver les textes pendant …]` | EF-OFF-05 |
 | `[WiFi Uniquement]` | EF-OFF-06 |
 | `[Purger le cache]` | EF-OFF-07, EF-OFF-09 |
+
+### Croquis « psalmodie »
+
+| Élément du croquis | Exigences |
+| --- | --- |
+| `Psaume 142` + antienne, verset `1 --- entends … * †` | EF-PSAL-09 (le pointage réel de l'AELF, repris tel quel) |
+| `faire suivre les notes (de musique) avec les syllabes` | EF-PSAL-10 |
+| `respecte la notation (—, †, *)` | EF-PSAL-09 — `—` récitation, `†`/`+` flexe, `*` médiante |
+| `Ajouter "piton" "play"` | EF-PSAL-11, EF-PSAL-12 |
+| `APPLIQUER À CHAQUES PARTIES DE CHAQUES OFFICE` | EF-PSAL-14 |
+| `But : applis qui apprend aux néophytes la psalmodie` | EF-PSAL-13 (allure), ENF-UX-01 |
 
 ## Exigences fonctionnelles → code → vérification
 
@@ -74,8 +87,15 @@ numéro de ligne, afin de rester justes après remaniement.
 | EF-PSAL-03 | `audio/synthese.js › jouerTon` | I — sortie audio non capturable sans périphérique |
 | EF-PSAL-04 | `ui/psalmodie.js › portee` | D — portée rendue, centrée sur l'ambitus |
 | EF-PSAL-05 | `audio/tons.js › frequence` + curseur « Hauteur » | I |
-| EF-PSAL-06 | `index.html › #btn-psalmodie` · `ui/liturgie.js › .psalmodie-lien` | D — bouton « Donner le ton » présent sous les psaumes |
+| EF-PSAL-06 | `index.html › #btn-psalmodie` · `ui/chant-psaume.js › monterPsalmodie` | D — barre « Chanter » et bouton de ton sous chaque psaume |
 | EF-PSAL-07 | `audio/synthese.js › arreter`, rappel `surFin` | I |
+| EF-PSAL-09 | `data/pointage.js › pointerPsaume` · `ui/chant-psaume.js › rendreLigne` | D — Ps 142 : flexe / médiante / finale conformes au texte AELF |
+| EF-PSAL-10 | `audio/chant.js › planVerset` · `.syl[data-note]::before` | D — « Sei(do) gneur(ré) en(fa) … coute(fa) mes(mi) ap(ré) pels(fa) » |
+| EF-PSAL-11 | `ui/chant-psaume.js › lancer/suivre` · `audio/synthese.js › jouerSequence` | D — surlignage successif « tends » → « ère » → « ta » |
+| EF-PSAL-12 | `ui/chant-psaume.js › rendreVerset` | I |
+| EF-PSAL-13 | `core/store.js › allureChant` | I |
+| EF-PSAL-14 | `data/sections.js › psalmodiable` | D — 12 parties, 12 pointées, 0 repli |
+| EF-PSAL-15 | `ui/chant-psaume.js` (comparaison hors blancs) | D — le psaume de la messe a d'abord été refusé, puis accepté après correction |
 | EF-OFF-01 | `data/cache.js` · `data/aelf.js › chargerOffice` | D — réseau coupé, office lu depuis la réserve |
 | EF-OFF-02 | `data/aelf.js › officesAPrecharger` | I |
 | EF-OFF-03 | `data/aelf.js › precharger` · bouton « Lancer » | D |
@@ -131,7 +151,7 @@ numéro de ligne, afin de rester justes après remaniement.
 
 | Ensemble | Réalisé | Partiel | Non réalisé |
 | --- | --- | --- | --- |
-| Exigences fonctionnelles (58) | 56 | 1 (EF-LIT-03) | 1 (EF-PSAL-08, *won't*) |
+| Exigences fonctionnelles (65) | 63 | 1 (EF-LIT-03) | 1 (EF-PSAL-08, *won't*) |
 | Exigences non fonctionnelles (64) | 59 | 2 (ENF-A11Y-11, ENF-COMPAT-01) | 3 (ENF-I18N-04, ENF-MAINT-07, ENF-EXPL-06, tous *won't*) |
 
 Restes à traiter pour une mise en service : mesure effective des contrastes

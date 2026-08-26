@@ -2,10 +2,18 @@
 
 ## Portée de la fonction
 
-Donner le ton : entendre la formule d'un ton psalmodique avant de chanter un
-psaume, et la voir sur une portée. Ce n'est **pas** un lecteur de partitions ni un
-moteur de chant : les formules sont volontairement simplifiées (une cadence
-courante par ton, pas l'ensemble des différences), ce que l'interface indique.
+Apprendre à psalmodier. Trois niveaux, du plus abstrait au plus concret :
+
+1. **La formule seule** — feuille « Psalmodie » : le ton choisi, sa portée, son
+   écoute. Utile pour entonner.
+2. **Le texte pointé** — chaque psaume et chaque cantique s'affiche avec le
+   pointage explicité : trait de récitation sur la teneur, nom des notes
+   au-dessus des syllabes de cadence, marques `+` et `*` mises en évidence.
+3. **Le chant suivi** — un bouton par psaume et un bouton par verset chantent le
+   texte sur le ton choisi en surlignant la syllabe en cours.
+
+Les formules restent volontairement simplifiées (une cadence courante par ton,
+pas l'ensemble des différences), ce que l'interface indique.
 
 ## Les neuf tons
 
@@ -103,21 +111,90 @@ Règles d'exécution :
 - Sans `AudioContext` (navigateur trop ancien, contexte restreint), l'écoute est
   refusée avec un message ; le reste de l'application n'est pas affecté.
 
+## Pointage et chant du texte
+
+### Ce que fournit l'AELF
+
+Le texte des offices est déjà pointé, et c'est ce pointage que l'application
+explicite plutôt que d'en inventer un :
+
+| Élément du texte | Sens | Usage |
+| --- | --- | --- |
+| `<br>` | Fin d'hémistiche | Découpe les lignes du verset |
+| `<span class="verse_number">` | Début de verset | Regroupe les lignes |
+| `<u>` autour d'une voyelle | Accent tonique qui porte la cadence | Point de départ de la médiante, de la terminaison ou de la flexe |
+| `*` en fin de ligne | Médiante | Ferme le premier hémistiche |
+| `+` en fin de ligne | Flexe | La voix descend d'un degré |
+
+Le psaume responsorial de la messe n'est pas pointé : à défaut d'accent marqué,
+la cadence prend les trois dernières syllabes de la ligne, et les versets se
+regroupent par strophe.
+
+### Attribution des cadences
+
+```mermaid
+flowchart TB
+    V["Lignes d'un verset"] --> M{"une ligne porte-t-elle « * » ?"}
+    M -->|oui| A["« * » = médiante<br/>« + » = flexe<br/>dernière ligne = terminaison<br/>le reste se récite"]
+    M -->|non| B["lignes chantées deux à deux :<br/>médiante puis terminaison"]
+```
+
+### Attribution des notes
+
+Pour chaque ligne, depuis la syllabe accentuée :
+
+| Cadence | Règle |
+| --- | --- |
+| Récitation | Toutes les syllabes sur la teneur, jusqu'à l'accent |
+| Flexe (`+`) | L'accent reste sur la teneur, les syllabes suivantes descendent sur la note de flexe |
+| Médiante (`*`) | La formule de médiante s'étale de l'accent à la fin de la ligne |
+| Terminaison | Idem avec la formule de terminaison |
+
+L'étalement respecte deux principes : la dernière note tombe toujours sur la
+dernière syllabe ; s'il reste plus de syllabes que de notes, la dernière note se
+prolonge ; s'il en reste moins, la formule est resserrée en gardant son début et
+sa note finale. L'intonation n'est chantée qu'au premier verset, et le *tonus
+peregrinus* bascule sur sa seconde teneur après la médiante.
+
+### Découpage syllabique
+
+`data/syllabes.js` applique les règles scolaires du français : groupes
+vocaliques indivisibles, groupes consonne + `l`/`r` soudés à la voyelle
+suivante, `e` muet final rattaché à la syllabe précédente, et loi de position
+(`pri-ère` mais `pied`). La précision n'a d'enjeu que sur les dernières syllabes
+d'une ligne : la récitation se chante de toute façon sur une seule note.
+
+**Garde-fou** : le texte reconstruit à partir des syllabes est comparé au texte
+de l'AELF, blancs exclus. Au moindre écart, l'application renonce au pointage et
+affiche le psaume ordinairement — un texte liturgique ne doit jamais être abîmé
+par un traitement d'affichage.
+
+### Chant suivi
+
+La suite de notes est programmée d'avance sur l'horloge audio ; l'interface lit
+`AudioContext.currentTime` à chaque frame pour surligner la syllabe en cours, ce
+qui interdit toute dérive entre le son et le texte. La syllabe suivie est
+ramenée à l'écran si elle en sort.
+
 ## Points d'entrée
 
 | Depuis | Comportement |
 | --- | --- |
 | Bouton ♪ de la barre du haut | Ouvre la feuille avec le ton enregistré |
-| Bouton « Donner le ton » sous un psaume ou un cantique | Même feuille, sans changer le ton choisi |
-| Tiroir « Paramètres » › Psalmodie | Change le ton et l'instrument par défaut |
+| Bouton « Chanter » sous un psaume | Chante le psaume entier, syllabe après syllabe |
+| Bouton ▶ devant un verset | Chante ce seul verset (avec intonation s'il s'agit du premier) |
+| Bouton « Ton … » de la barre du psaume | Ouvre la feuille sans changer le ton |
+| Tiroir « Paramètres » › Psalmodie | Ton, instrument, affichage des notes, allure du chant |
 
 ## Limites assumées
 
 - Une seule différence (terminaison) par ton, alors que la tradition en compte
   plusieurs par mode.
-- Aucune adaptation au texte : ni découpe des hémistiches, ni gestion des
-  accents et syllabes préparatoires.
 - Le tonus peregrinus est réduit à sa double teneur.
+- Le découpage syllabique est heuristique : il peut se tromper sur des mots
+  rares, sans conséquence sur la récitation, à la marge sur une cadence.
+- Les antiennes, hymnes et répons ne sont pas chantés : ils ont leurs propres
+  mélodies, qui ne se déduisent pas d'un ton psalmodique.
 
 Ces limites sont énoncées dans l'interface (« aides à l'intonation,
 simplifiées ») afin de ne pas laisser croire à une notation critique.

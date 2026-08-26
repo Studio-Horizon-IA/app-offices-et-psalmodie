@@ -8,6 +8,8 @@ const PAR_DEFAUT = {
   // Psalmodie
   ton: 'II',
   instrument: 'piano',
+  afficherNotes: true, // notes posées au-dessus des syllabes
+  allureChant: 1, // 0,75 = lent (apprentissage), 1,25 = vif
   // Affichage
   nuit: null, // null = suit le système
   tailleTexte: 1,

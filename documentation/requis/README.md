@@ -31,7 +31,8 @@ une exigence retirée devient « Abandonnée ».
 
 | Code | Sens |
 | --- | --- |
-| `Croquis` | Explicitement dessiné ou écrit sur `documentation/croquis/PXL_20260825_232044626.jpg` |
+| `Croquis` | Explicitement dessiné ou écrit sur le croquis d'ensemble `documentation/croquis/PXL_20260825_232044626.jpg` |
+| `Croquis 2` | Issu du second croquis `documentation/croquis/PXL_20260826_010051286.webp`, consacré à l'apprentissage de la psalmodie |
 | `Déduit` | Conséquence nécessaire du croquis (une PWA hors connexion implique un cache, une purge, des états d'erreur) |
 | `Technique` | Imposé par la plateforme ou par une décision d'architecture |
 

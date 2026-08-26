@@ -132,6 +132,127 @@
   color: var(--encre-douce);
 }
 
+/* --- Vue psalmodique : texte pointé, notes, lecture chantée --- */
+
+.psalmodie-texte {
+  /* De la place au-dessus des lignes pour poser le nom des notes. */
+  line-height: calc(var(--lecture-interligne) * 1.28);
+}
+
+.psalmodie-texte .verset {
+  position: relative;
+  margin: 0 0 1rem;
+  padding-left: 1.9rem;
+}
+
+.verset-play {
+  position: absolute;
+  left: -0.15rem;
+  top: 0.15em;
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  border: 1px solid var(--trait);
+  border-radius: 50%;
+  background: var(--fond-eleve);
+  color: var(--encre-tenue);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.verset-play svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  fill: currentColor;
+  stroke: none;
+}
+
+.verset:hover .verset-play,
+.verset-play:focus-visible {
+  opacity: 1;
+  color: var(--liturgique);
+  border-color: var(--liturgique);
+}
+
+/* La syllabe : support de la note et du surlignage. */
+.syl {
+  position: relative;
+  white-space: pre-wrap;
+}
+
+.syl.accent {
+  font-weight: 700;
+  color: var(--liturgique);
+}
+
+/* Récitation sur la teneur — le trait continu « — » du pointage. */
+.recitatif {
+  box-shadow: inset 0 0.08em 0 0 var(--trait-fort);
+}
+
+/* Nom de la note, posé au-dessus des syllabes de cadence. */
+.syl[data-note]::before {
+  content: attr(data-note);
+  position: absolute;
+  left: 50%;
+  bottom: 1.35em;
+  transform: translateX(-50%);
+  font-family: var(--sans);
+  font-size: 0.54em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  color: var(--liturgique);
+  opacity: 0.75;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.bloc.psalmodie.sans-notes .syl[data-note]::before {
+  display: none;
+}
+
+.syl.r-intonation {
+  color: var(--encre-douce);
+}
+
+.syl.chante {
+  border-radius: 3px;
+  background: var(--liturgique);
+  color: var(--fond-eleve);
+  box-shadow: none;
+}
+
+.syl.chante::before {
+  opacity: 1;
+}
+
+/* Marques de pointage de l'AELF : « + » flexe, « * » médiante. */
+.psalmodie-texte .marque {
+  padding: 0 0.15em;
+  border: 0;
+  color: var(--liturgique);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: help;
+}
+
+.psalmodie-barre {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.7rem;
+}
+
+.chant-play svg {
+  fill: currentColor;
+  stroke: none;
+}
+
 /* Bouton « jouer le ton » posé près d'un psaume */
 .psalmodie-lien {
   display: inline-flex;
