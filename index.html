@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Offices &amp; Psalmodie</title>
+    <meta
+      name="description"
+      content="Liturgie des Heures, messe et lectures du jour, avec tons psalmodiques et lecture hors connexion."
+    />
+    <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14110e" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Offices" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/icon-180.png" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#liturgie">Aller au texte</a>
+
+    <header class="topbar">
+      <button
+        class="icon-btn"
+        id="btn-jour"
+        type="button"
+        aria-label="Jour et offices"
+        aria-expanded="false"
+        aria-controls="drawer-jour"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
+
+      <button class="topbar-title" id="btn-titre" type="button" aria-label="Choisir la date">
+        <span class="topbar-title-main" id="titre-jour">Offices &amp; Psalmodie</span>
+        <span class="topbar-title-sub" id="titre-fete">Chargement…</span>
+      </button>
+
+      <button
+        class="icon-btn"
+        id="btn-psalmodie"
+        type="button"
+        aria-label="Psalmodie : ton et instrument"
+        aria-expanded="false"
+        aria-controls="panneau-psalmodie"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 18V5l10-2v13" />
+          <circle cx="6.5" cy="18" r="2.5" />
+          <circle cx="16.5" cy="16" r="2.5" />
+        </svg>
+      </button>
+
+      <button
+        class="icon-btn"
+        id="btn-parametres"
+        type="button"
+        aria-label="Paramètres"
+        aria-expanded="false"
+        aria-controls="drawer-parametres"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="5" r="1.6" />
+          <circle cx="12" cy="12" r="1.6" />
+          <circle cx="12" cy="19" r="1.6" />
+        </svg>
+      </button>
+    </header>
+
+    <nav class="sections" id="sections" aria-label="Sections de l'office">
+      <div class="sections-track" id="sections-track" role="tablist"></div>
+    </nav>
+
+    <main class="liturgie" id="liturgie" tabindex="-1" aria-live="polite">
+      <div class="liturgie-inner" id="liturgie-inner" role="tabpanel"></div>
+    </main>
+
+    <div class="scrim" id="scrim" hidden></div>
+
+    <aside class="drawer drawer-left" id="drawer-jour" aria-label="Jour et offices" hidden>
+      <div class="drawer-scroll" id="drawer-jour-body"></div>
+    </aside>
+
+    <aside class="drawer drawer-right" id="drawer-parametres" aria-label="Paramètres" hidden>
+      <div class="drawer-scroll" id="drawer-parametres-body"></div>
+    </aside>
+
+    <section class="sheet" id="panneau-psalmodie" aria-label="Psalmodie" hidden>
+      <div class="sheet-inner" id="panneau-psalmodie-body"></div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>

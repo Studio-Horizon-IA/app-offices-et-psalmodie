@@ -1,0 +1,376 @@
+/* Contenu des tiroirs : en-têtes, listes d'offices, réglages. */
+
+.drawer-entete {
+  padding: 0.25rem 1.1rem 0.9rem;
+  border-bottom: 1px solid var(--trait);
+}
+
+.drawer-entete h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.drawer-entete p {
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+  color: var(--encre-douce);
+}
+
+.drawer-entete .fete {
+  color: var(--liturgique);
+  font-weight: 600;
+}
+
+/* Navigation de date */
+.date-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+}
+
+.date-nav button {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--trait);
+  border-radius: 0.6rem;
+  background: var(--fond);
+  cursor: pointer;
+}
+
+.date-nav .date-nav-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--trait);
+  border-radius: 0.6rem;
+  background: var(--fond);
+  font-size: 0.85rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.date-nav input[type='date'] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.groupe {
+  padding: 0.9rem 0 0.35rem;
+}
+
+.groupe + .groupe {
+  border-top: 1px solid var(--trait);
+}
+
+.groupe-titre {
+  margin: 0 0 0.35rem;
+  padding: 0 1.1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--encre-tenue);
+}
+
+.entree {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.7rem 1.1rem;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.entree:active {
+  background: var(--fond-enfonce);
+}
+
+.entree-nom {
+  flex: 1 1 auto;
+  font-family: var(--serif);
+  font-size: 1.02rem;
+}
+
+.entree-heure {
+  font-size: 0.75rem;
+  color: var(--encre-tenue);
+  font-variant-numeric: tabular-nums;
+}
+
+.entree[aria-current='true'] {
+  background: var(--accent-doux);
+}
+
+.entree[aria-current='true'] .entree-nom {
+  color: var(--liturgique);
+  font-weight: 600;
+}
+
+.entree .pastille {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--trait-fort);
+}
+
+.entree .pastille.est-cache {
+  background: #4c9a63;
+}
+
+/* --- Réglages --- */
+
+.reglage {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.65rem 1.1rem;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+button.reglage {
+  cursor: pointer;
+}
+
+button.reglage:active {
+  background: var(--fond-enfonce);
+}
+
+.reglage-texte {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.reglage-nom {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.reglage-aide {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: var(--encre-tenue);
+}
+
+.reglage-valeur {
+  flex: 0 0 auto;
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  color: var(--liturgique);
+}
+
+.reglage.danger .reglage-nom {
+  color: #b4523f;
+}
+
+/* Interrupteur */
+.bascule {
+  position: relative;
+  flex: 0 0 auto;
+  width: 2.85rem;
+  height: 1.6rem;
+  border: 0;
+  border-radius: 1rem;
+  background: var(--trait-fort);
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+
+.bascule::after {
+  content: '';
+  position: absolute;
+  top: 0.18rem;
+  left: 0.18rem;
+  width: 1.24rem;
+  height: 1.24rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+  transition: transform 0.18s ease;
+}
+
+.bascule[aria-checked='true'] {
+  background: var(--liturgique);
+}
+
+.bascule[aria-checked='true']::after {
+  transform: translateX(1.25rem);
+}
+
+/* Choix segmenté */
+.segments {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.15rem 1.1rem 0.75rem;
+  flex-wrap: wrap;
+}
+
+.segments button {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--trait);
+  border-radius: 999px;
+  background: var(--fond);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.segments button[aria-pressed='true'] {
+  border-color: var(--liturgique);
+  background: var(--accent-doux);
+  color: var(--liturgique);
+  font-weight: 600;
+}
+
+/* Curseur */
+.curseur {
+  padding: 0.15rem 1.1rem 0.9rem;
+}
+
+.curseur input[type='range'] {
+  width: 100%;
+  accent-color: var(--liturgique);
+}
+
+.curseur-apercu {
+  margin: 0.35rem 0 0;
+  font-family: var(--serif);
+  font-size: calc(1rem * var(--texte-scale));
+  color: var(--encre-douce);
+}
+
+/* Barre de progression du téléchargement */
+.progres {
+  height: 3px;
+  margin: 0 1.1rem 0.7rem;
+  border-radius: 3px;
+  background: var(--trait);
+  overflow: hidden;
+}
+
+.progres span {
+  display: block;
+  height: 100%;
+  background: var(--liturgique);
+  transition: width 0.2s ease;
+}
+
+/* --- Panneau psalmodie --- */
+
+.psalmodie-titre {
+  margin: 0 0 0.15rem;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+}
+
+.psalmodie-soustitre {
+  margin: 0 0 0.9rem;
+  font-size: 0.82rem;
+  color: var(--encre-tenue);
+}
+
+.portee {
+  width: 100%;
+  height: auto;
+  margin: 0.25rem 0 0.9rem;
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  background: var(--fond);
+}
+
+.portee .ligne {
+  stroke: var(--trait-fort);
+  stroke-width: 1;
+}
+
+.portee .note {
+  fill: var(--encre);
+  stroke: none;
+}
+
+.portee .note.teneur {
+  fill: var(--liturgique);
+}
+
+.portee .etiquette {
+  fill: var(--encre-tenue);
+  stroke: none;
+  font-size: 9px;
+  font-family: var(--sans);
+}
+
+.psalmodie-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--trait);
+  border-radius: 999px;
+  background: var(--fond);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.bouton.primaire {
+  border-color: var(--liturgique);
+  background: var(--liturgique);
+  color: var(--fond-eleve);
+}
+
+.bouton.primaire svg {
+  stroke: currentColor;
+}
+
+.bouton[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.champ-ligne {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.55rem 0;
+}
+
+.champ-ligne label {
+  flex: 0 0 5.5rem;
+  font-size: 0.85rem;
+  color: var(--encre-douce);
+}
+
+.champ-ligne select,
+.champ-ligne input[type='range'] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.champ-ligne select {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--trait);
+  border-radius: 0.6rem;
+  background: var(--fond);
+}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Offices et psalmodie">
+  <rect width="512" height="512" rx="112" fill="#2b2118" />
+  <g stroke="#e8dcc7" stroke-width="10" stroke-linecap="round" opacity="0.55">
+    <line x1="112" y1="176" x2="400" y2="176" />
+    <line x1="112" y1="232" x2="400" y2="232" />
+    <line x1="112" y1="288" x2="400" y2="288" />
+    <line x1="112" y1="344" x2="400" y2="344" />
+  </g>
+  <g fill="#d5a852">
+    <rect x="150" y="292" width="52" height="52" rx="8" />
+    <rect x="230" y="236" width="52" height="52" rx="8" />
+    <rect x="310" y="180" width="52" height="52" rx="8" />
+  </g>
+  <path d="M362 180 v-52" stroke="#d5a852" stroke-width="14" stroke-linecap="round" />
+</svg>
