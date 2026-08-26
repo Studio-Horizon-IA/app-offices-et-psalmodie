@@ -1,0 +1,129 @@
+/* Jetons de base — palette « parchemin » le jour, « veilleuse » la nuit. */
+:root {
+  color-scheme: light;
+
+  --fond: #f6f1e7;
+  --fond-eleve: #fffdf8;
+  --fond-enfonce: #ece5d6;
+  --encre: #241f18;
+  --encre-douce: #5c5346;
+  --encre-tenue: #8a8072;
+  --trait: #ddd3c0;
+  --trait-fort: #c6b99f;
+  --accent: #8a6a2f;
+  --accent-doux: #f0e5cd;
+  --ombre: 0 8px 30px rgb(36 31 24 / 18%);
+
+  /* Couleur liturgique du jour (mise à jour par le JS). */
+  --liturgique: var(--accent);
+
+  --texte-scale: 1;
+  --lecture-taille: calc(1.06rem * var(--texte-scale));
+  --lecture-interligne: 1.62;
+
+  --topbar-h: 3.5rem;
+  --sections-h: 2.75rem;
+  --rayon: 0.75rem;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --sur-haut: env(safe-area-inset-top, 0px);
+  --sur-bas: env(safe-area-inset-bottom, 0px);
+}
+
+:root[data-theme='nuit'] {
+  color-scheme: dark;
+
+  --fond: #14110e;
+  --fond-eleve: #1e1a15;
+  --fond-enfonce: #0d0b09;
+  --encre: #e8dcc7;
+  --encre-douce: #b0a08a;
+  --encre-tenue: #7d7160;
+  --trait: #322b23;
+  --trait-fort: #4a4036;
+  --accent: #d5a852;
+  --accent-doux: #2a2218;
+  --ombre: 0 8px 30px rgb(0 0 0 / 55%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--encre);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+input[type='range'] {
+  accent-color: var(--liturgique);
+}
+
+svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+:focus-visible {
+  outline: 2px solid var(--liturgique);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--fond-eleve);
+  color: var(--encre);
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

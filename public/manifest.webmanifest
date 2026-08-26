@@ -1,0 +1,26 @@
+{
+  "name": "Offices & Psalmodie",
+  "short_name": "Offices",
+  "description": "Liturgie des Heures, messe et lectures du jour, avec tons psalmodiques et lecture hors connexion.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f1e7",
+  "theme_color": "#f6f1e7",
+  "categories": ["books", "lifestyle", "education"],
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Laudes", "url": "/#/laudes", "description": "Office du matin" },
+    { "name": "Vêpres", "url": "/#/vepres", "description": "Office du soir" },
+    { "name": "Complies", "url": "/#/complies", "description": "Office de la nuit" },
+    { "name": "Messe", "url": "/#/messe", "description": "Lectures de la messe du jour" }
+  ]
+}

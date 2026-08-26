@@ -1,0 +1,260 @@
+/* Coquille : barre du haut, onglets de sections, tiroirs, feuille du bas. */
+
+.topbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: calc(var(--topbar-h) + var(--sur-haut));
+  padding: var(--sur-haut) 0.35rem 0;
+  background: var(--fond-eleve);
+  border-bottom: 1px solid var(--trait);
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--encre-douce);
+  cursor: pointer;
+}
+
+.icon-btn:active {
+  background: var(--fond-enfonce);
+}
+
+.icon-btn[aria-expanded='true'] {
+  color: var(--liturgique);
+}
+
+.topbar-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.05rem;
+  padding: 0 0.25rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+}
+
+.topbar-title-main {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.topbar-title-sub {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--liturgique);
+}
+
+/* --- Onglets de sections (défilement horizontal, synchronisé au balayage) --- */
+
+.sections {
+  position: fixed;
+  z-index: 25;
+  top: calc(var(--topbar-h) + var(--sur-haut));
+  left: 0;
+  right: 0;
+  height: var(--sections-h);
+  background: var(--fond-eleve);
+  border-bottom: 1px solid var(--trait);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.sections::-webkit-scrollbar {
+  display: none;
+}
+
+.sections-track {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  padding: 0 0.5rem;
+  width: max-content;
+  min-width: 100%;
+}
+
+.section-tab {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0 0.85rem;
+  border: 0;
+  background: transparent;
+  color: var(--encre-tenue);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.section-tab[aria-selected='true'] {
+  color: var(--liturgique);
+  font-weight: 600;
+}
+
+.section-tab[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  left: 0.55rem;
+  right: 0.55rem;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: var(--liturgique);
+}
+
+/* --- Zone de lecture --- */
+
+.liturgie {
+  position: fixed;
+  inset: calc(var(--topbar-h) + var(--sections-h) + var(--sur-haut)) 0 0 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.liturgie-inner {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.15rem calc(6rem + var(--sur-bas));
+  transform-origin: top center;
+}
+
+/* --- Tiroirs --- */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgb(20 17 14 / 45%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.scrim.is-open {
+  opacity: 1;
+}
+
+.drawer {
+  position: fixed;
+  z-index: 45;
+  top: 0;
+  bottom: 0;
+  width: min(20.5rem, 88vw);
+  background: var(--fond-eleve);
+  box-shadow: var(--ombre);
+  transition: transform 0.26s cubic-bezier(0.2, 0.7, 0.3, 1);
+  will-change: transform;
+}
+
+.drawer-left {
+  left: 0;
+  border-right: 1px solid var(--trait);
+  transform: translateX(-102%);
+}
+
+.drawer-right {
+  right: 0;
+  border-left: 1px solid var(--trait);
+  transform: translateX(102%);
+}
+
+.drawer.is-open {
+  transform: translateX(0);
+}
+
+.drawer-scroll {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: calc(0.9rem + var(--sur-haut)) 0 calc(1.5rem + var(--sur-bas));
+}
+
+/* --- Feuille du bas (psalmodie) --- */
+
+.sheet {
+  position: fixed;
+  z-index: 45;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 82vh;
+  background: var(--fond-eleve);
+  border-top: 1px solid var(--trait);
+  border-radius: var(--rayon) var(--rayon) 0 0;
+  box-shadow: var(--ombre);
+  transform: translateY(102%);
+  transition: transform 0.26s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.sheet.is-open {
+  transform: translateY(0);
+}
+
+.sheet-inner {
+  max-height: 82vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem 1.1rem calc(1.5rem + var(--sur-bas));
+}
+
+.sheet-inner::before {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: 4px;
+  margin: 0 auto 0.75rem;
+  border-radius: 2px;
+  background: var(--trait-fort);
+}
+
+/* --- Toast --- */
+
+.toast {
+  position: fixed;
+  z-index: 60;
+  left: 50%;
+  bottom: calc(1.5rem + var(--sur-bas));
+  transform: translate(-50%, 1rem);
+  max-width: min(28rem, 92vw);
+  padding: 0.7rem 1rem;
+  border-radius: var(--rayon);
+  background: var(--encre);
+  color: var(--fond);
+  font-size: 0.88rem;
+  box-shadow: var(--ombre);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.is-open {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}

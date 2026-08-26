@@ -1,0 +1,212 @@
+/* Mise en page des textes liturgiques. */
+
+.bloc {
+  margin: 0 0 1.6rem;
+}
+
+.bloc-etiquette {
+  margin: 0 0 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--liturgique);
+}
+
+.bloc-titre {
+  margin: 0 0 0.35rem;
+  font-family: var(--serif);
+  font-size: calc(1.15rem * var(--texte-scale));
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.bloc-ref {
+  margin: 0 0 0.5rem;
+  font-size: calc(0.82rem * var(--texte-scale));
+  color: var(--encre-tenue);
+  font-style: italic;
+}
+
+.bloc-corps {
+  font-family: var(--serif);
+  font-size: var(--lecture-taille);
+  line-height: var(--lecture-interligne);
+  hyphens: auto;
+}
+
+.bloc-corps p {
+  margin: 0 0 0.85rem;
+}
+
+.bloc-corps p:last-child {
+  margin-bottom: 0;
+}
+
+.bloc-corps u {
+  /* L'API souligne la syllabe accentuée : on la marque sans souligner. */
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--liturgique);
+}
+
+.bloc-corps .verse_number {
+  display: inline-block;
+  min-width: 1.4em;
+  margin-right: 0.15em;
+  font-family: var(--sans);
+  font-size: 0.7em;
+  color: var(--encre-tenue);
+  vertical-align: 0.25em;
+  user-select: none;
+}
+
+.bloc-corps strong {
+  color: var(--encre);
+}
+
+/* Antienne : détachée, en italique, sur fond léger */
+.bloc.antienne .bloc-corps {
+  padding: 0.6rem 0.85rem;
+  border-left: 3px solid var(--liturgique);
+  border-radius: 0 var(--rayon) var(--rayon) 0;
+  background: var(--accent-doux);
+  font-style: italic;
+}
+
+.bloc.hymne .bloc-corps {
+  font-size: calc(1rem * var(--texte-scale));
+}
+
+.bloc.hymne .bloc-corps p {
+  margin-bottom: 0.8rem;
+}
+
+.bloc.repons .bloc-corps,
+.bloc.introduction .bloc-corps {
+  color: var(--encre-douce);
+}
+
+.bloc-source {
+  margin-top: 0.4rem;
+  font-size: calc(0.75rem * var(--texte-scale));
+  color: var(--encre-tenue);
+}
+
+/* Séparateur entre sections d'un même flux */
+.section-sep {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 1.4rem;
+  color: var(--encre-tenue);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section-sep::before,
+.section-sep::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--trait);
+}
+
+/* En-tête de section (titre de l'office affiché en tête du flux) */
+.office-entete {
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
+.office-entete h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: calc(1.5rem * var(--texte-scale));
+  font-weight: 600;
+}
+
+.office-entete p {
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+  color: var(--encre-douce);
+}
+
+/* Bouton « jouer le ton » posé près d'un psaume */
+.psalmodie-lien {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--trait);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--encre-douce);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.psalmodie-lien svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* États */
+.etat {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--encre-douce);
+}
+
+.etat h2 {
+  margin: 0 0 0.4rem;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--encre);
+}
+
+.etat p {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+
+.squelette {
+  padding: 0.5rem 0;
+}
+
+.squelette div {
+  height: 0.85rem;
+  margin-bottom: 0.75rem;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--fond-enfonce), var(--trait), var(--fond-enfonce));
+  background-size: 200% 100%;
+  animation: chargement 1.4s ease-in-out infinite;
+}
+
+.squelette div:nth-child(3n) {
+  width: 72%;
+}
+
+.squelette div:nth-child(4n) {
+  width: 88%;
+}
+
+@keyframes chargement {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.bandeau-hors-ligne {
+  margin: 0 0 1.2rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--trait-fort);
+  border-radius: var(--rayon);
+  background: var(--fond-enfonce);
+  font-size: 0.8rem;
+  color: var(--encre-douce);
+}
