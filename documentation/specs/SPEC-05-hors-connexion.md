@@ -71,8 +71,8 @@ Points spécifiés ici :
 | Aspect | Décision |
 | --- | --- |
 | Enregistrement | Production uniquement (`import.meta.env.PROD`), sur l'événement `load` |
-| Portée | `/` |
-| Précache | Liste réelle des fichiers de `docs/` injectée au build, `.map` et `.txt` exclus, avec `cache: 'reload'` pour ne pas figer une réponse déjà périmée |
+| Portée | Celle de `base` : `/` à la racine d'un domaine, le dossier de publication sous un préfixe |
+| Précache | Liste réelle des fichiers de `docs/` injectée au build, en chemins relatifs (`./…`) résolus par rapport à `sw.js`, `.map` et `.txt` exclus, avec `cache: 'reload'` pour ne pas figer une réponse déjà périmée |
 | Activation | `skipWaiting()` + `clients.claim()` ; les caches `coquille-*` d'autres versions sont supprimés |
 | Requêtes non-GET | Ignorées |
 | Navigation hors ligne | `/index.html`, puis `/`, puis réponse 503 « Hors connexion » en texte brut |

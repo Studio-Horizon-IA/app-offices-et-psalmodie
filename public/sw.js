@@ -86,9 +86,11 @@ self.addEventListener('fetch', (evenement) => {
           return await fetch(requete);
         } catch {
           const cache = await caches.open(CACHE_COQUILLE);
+          // Chemins relatifs : résolus par rapport à l'emplacement de `sw.js`,
+          // donc valables sous n'importe quel préfixe de publication.
           return (
-            (await cache.match('/index.html')) ??
-            (await cache.match('/')) ??
+            (await cache.match('./index.html')) ??
+            (await cache.match('./')) ??
             new Response('Hors connexion', { status: 503, headers: { 'Content-Type': 'text/plain' } })
           );
         }

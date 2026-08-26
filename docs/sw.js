@@ -8,10 +8,10 @@
  * fonctionne.
  */
 
-const VERSION = '1787708377406';
+const VERSION = '1787709912867';
 const CACHE_COQUILLE = `coquille-${VERSION}`;
 const CACHE_TEXTES = 'aelf-textes-v1';
-const PRECACHE = ["/","/assets/index-Br1D15k7.css","/assets/index-Ersm47Vp.js","/icons/icon-180.png","/icons/icon-192.png","/icons/icon-512.png","/icons/icon-maskable-512.png","/icons/icon-maskable.svg","/icons/icon.svg","/index.html","/manifest.webmanifest"];
+const PRECACHE = ["./","./assets/index-Br1D15k7.css","./assets/index-CKI_SJ0v.js","./icons/icon-180.png","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/icon-maskable.svg","./icons/icon.svg","./index.html","./manifest.webmanifest"];
 
 const AELF = 'https://api.aelf.org';
 
@@ -86,9 +86,11 @@ self.addEventListener('fetch', (evenement) => {
           return await fetch(requete);
         } catch {
           const cache = await caches.open(CACHE_COQUILLE);
+          // Chemins relatifs : résolus par rapport à l'emplacement de `sw.js`,
+          // donc valables sous n'importe quel préfixe de publication.
           return (
-            (await cache.match('/index.html')) ??
-            (await cache.match('/')) ??
+            (await cache.match('./index.html')) ??
+            (await cache.match('./')) ??
             new Response('Hors connexion', { status: 503, headers: { 'Content-Type': 'text/plain' } })
           );
         }

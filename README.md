@@ -19,8 +19,37 @@ Le service worker n'est **pas** enregistré en développement : testez le mode h
 connexion avec `npm run build && npm run preview`.
 
 Le build sort dans `docs/` (`build.outDir` de `vite.config.js`), dossier que
-GitHub Pages sait servir directement. Il est ignoré par git : retirez la ligne
-`docs/` de `.gitignore` si vous voulez le versionner pour une publication.
+GitHub Pages sait servir directement. Le fichier vide `docs/.nojekyll` (issu de
+`public/.nojekyll`) empêche Pages de faire passer le site par Jekyll, qui
+ignorerait les fichiers commençant par `_`.
+
+## Publier : réplique locale de GitHub Pages
+
+`Dockerfile` sert `docs/` avec nginx en reproduisant le comportement de Pages —
+site statique, `404.html`, aucun repli SPA, `Cache-Control: max-age=600`,
+`Access-Control-Allow-Origin: *`, gzip, `ETag`.
+
+```bash
+npm run build
+docker build -t offices-pages .
+docker run --rm -p 8080:8080 -p 8081:8081 offices-pages
+```
+
+| Adresse | Mode Pages reproduit | Résultat |
+| --- | --- | --- |
+| <http://localhost:8080/> | Page d'utilisateur/organisation (`<compte>.github.io`) ou domaine personnalisé | ✅ L'application fonctionne, service worker compris |
+| <http://localhost:8081/> | Page de projet (`<compte>.github.io/<dépôt>/`) | ✅ L'application fonctionne, service worker compris |
+
+Les deux modes fonctionnent parce que **rien n'est référencé de façon absolue** :
+`base: './'` dans `vite.config.js`, `%BASE_URL%` dans `index.html`, `start_url`
+et `scope` relatifs dans le manifeste, service worker enregistré sur
+`${import.meta.env.BASE_URL}sw.js`, et liste de précache en `./…` résolue par
+rapport à l'emplacement de `sw.js`. Le port 8081 sert à vérifier ce point avant
+chaque publication : un seul chemin absolu qui réapparaît et la page de projet
+casse.
+
+`localhost` étant un contexte sécurisé, le service worker et l'installation PWA
+fonctionnent sans HTTPS : la réplique ne gère donc pas TLS.
 
 ## Ce que fait l'application
 

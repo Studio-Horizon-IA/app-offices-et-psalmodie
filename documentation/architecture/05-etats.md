@@ -109,8 +109,8 @@ Règles de lecture (`lireAdresse()`), tolérantes par construction :
 | Date | Aujourd'hui (date **locale**, jamais UTC) |
 | Section | `0` |
 
-Les raccourcis du manifeste (`/#/laudes`, `/#/vepres`, `/#/complies`,
-`/#/messe`) exploitent cette tolérance : ils ne donnent que l'office, la date et
+Les raccourcis du manifeste (`./#/laudes`, `./#/vepres`, `./#/complies`,
+`./#/messe`) exploitent cette tolérance : ils ne donnent que l'office, la date et
 la section sont déduites.
 
 ## Thème et couleur liturgique

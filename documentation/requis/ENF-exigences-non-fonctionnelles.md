@@ -107,7 +107,7 @@ des essais menés sous Chromium 150 (pilotage CDP, gabarit 430 × 932, DPR 2).
 | ID | Exigence | Prio | Statut |
 | --- | --- | --- | --- |
 | ENF-EXPL-01 | Hébergement statique, sans serveur applicatif ni base de données. | M | ✅ |
-| ENF-EXPL-02 | Servi en HTTPS à la racine du domaine. | M | ✅ Contrainte documentée |
+| ENF-EXPL-02 | Servi en HTTPS, à la racine d'un domaine comme sous un sous-chemin. | M | ✅ Base relative, les deux modes vérifiés sur la réplique nginx |
 | ENF-EXPL-03 | Aucune configuration serveur particulière (pas de réécriture d'URL). | S | ✅ Navigation dans le fragment |
 | ENF-EXPL-04 | Un déploiement invalide la coquille sans toucher aux textes conservés. | M | ✅ Caches séparés |
 | ENF-EXPL-05 | Le service worker n'est pas actif en développement. | S | ✅ |
