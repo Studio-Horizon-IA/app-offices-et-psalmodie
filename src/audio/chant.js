@@ -37,30 +37,44 @@ function indexAccent(syllabes) {
 /**
  * Étale une formule de cadence sur les syllabes qui restent depuis l'accent.
  * La dernière note tombe toujours sur la dernière syllabe.
+ *
+ * Chaque élément garde l'`index` de la note dans la formule d'origine : c'est
+ * lui qui permet d'allumer la bonne tête sur la portée pendant le chant.
  */
 function etalerFormule(formule, nombre) {
+  const dernier = formule.length - 1;
   if (nombre <= 0) return [];
-  if (nombre === 1) return [formule.at(-1)];
+  if (nombre === 1) return [{ note: formule[dernier], index: dernier }];
+
   if (nombre >= formule.length) {
-    const complement = Array(nombre - formule.length).fill(formule.at(-1));
-    return [...formule, ...complement];
+    const complement = Array.from({ length: nombre - formule.length }, () => ({
+      note: formule[dernier],
+      index: dernier,
+    }));
+    return [...formule.map((note, index) => ({ note, index })), ...complement];
   }
-  return [...formule.slice(0, nombre - 1), formule.at(-1)];
+
+  return [
+    ...formule.slice(0, nombre - 1).map((note, index) => ({ note, index })),
+    { note: formule[dernier], index: dernier },
+  ];
 }
 
-function notesDeLigne(ligne, ton, teneur, avecIntonation) {
+function notesDeLigne(ligne, ton, teneur, avecIntonation, groupeTeneur) {
   const syllabes = syllabesDe(ligne);
   if (!syllabes.length) return [];
 
   const accent = indexAccent(syllabes);
   const notes = new Array(syllabes.length).fill(teneur);
   const roles = new Array(syllabes.length).fill('teneur');
+  const positions = new Array(syllabes.length).fill(null).map(() => ({ groupe: groupeTeneur }));
 
   if (avecIntonation) {
     const portee = Math.min(ton.intonation.length, Math.max(1, accent));
     for (let i = 0; i < portee; i += 1) {
       notes[i] = ton.intonation[i];
       roles[i] = 'intonation';
+      positions[i] = { groupe: 'intonation', index: i };
     }
   }
 
@@ -69,13 +83,15 @@ function notesDeLigne(ligne, ton, teneur, avecIntonation) {
     for (let i = accent + 1; i < syllabes.length; i += 1) {
       notes[i] = ton.flexa;
       roles[i] = 'flexe';
+      positions[i] = { groupe: 'flexe', index: 0 };
     }
   } else if (ligne.cadence === 'mediante' || ligne.cadence === 'finale') {
+    const groupe = ligne.cadence === 'mediante' ? 'mediante' : 'terminaison';
     const formule = ligne.cadence === 'mediante' ? ton.mediante : ton.terminaison;
-    const etalee = etalerFormule(formule, syllabes.length - accent);
-    etalee.forEach((note, decalage) => {
+    etalerFormule(formule, syllabes.length - accent).forEach(({ note, index }, decalage) => {
       notes[accent + decalage] = note;
       roles[accent + decalage] = ligne.cadence;
+      positions[accent + decalage] = { groupe, index };
     });
   }
 
@@ -83,6 +99,7 @@ function notesDeLigne(ligne, ton, teneur, avecIntonation) {
     syllabe,
     note: notes[i],
     role: roles[i],
+    position: positions[i],
     duree:
       i === syllabes.length - 1
         ? DUREES.finLigne
@@ -96,18 +113,22 @@ function notesDeLigne(ligne, ton, teneur, avecIntonation) {
 export function planVerset(verset, ton, { intonation = false } = {}) {
   const etapes = [];
   let teneur = ton.teneur;
+  let groupeTeneur = 'teneur';
   let premiereLigne = true;
 
   for (const ligne of verset.lignes) {
     if (ligne.vide) continue;
 
-    etapes.push(...notesDeLigne(ligne, ton, teneur, intonation && premiereLigne));
+    etapes.push(
+      ...notesDeLigne(ligne, ton, teneur, intonation && premiereLigne, groupeTeneur)
+    );
     premiereLigne = false;
 
     if (ligne.cadence === 'mediante') {
       etapes.push({ syllabe: null, note: null, role: 'silence', duree: DUREES.silenceMediante });
       // Le tonus peregrinus change de teneur au second hémistiche.
       teneur = ton.teneurSeconde ?? ton.teneur;
+      groupeTeneur = 'teneur2';
     } else if (ligne.cadence === 'flexe') {
       etapes.push({ syllabe: null, note: null, role: 'silence', duree: DUREES.silenceFlexe });
     }

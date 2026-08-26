@@ -60,7 +60,7 @@ Conventions d'identifiants, de priorité et de statut : voir le
 | EF-PSAL-07 | Une écoute en cours peut être arrêtée, et une nouvelle écoute interrompt la précédente. | S | Déduit | ✅ |
 | EF-PSAL-08 | Les formules complètes (toutes les différences par mode) sont proposées. | W | Déduit | ⛔ Une cadence courante par ton ; limite énoncée dans l'interface. |
 | EF-PSAL-09 | Chaque psaume et cantique s'affiche **pointé** : trait de récitation sur la teneur, cadences distinguées, marques `+` et `*` mises en évidence. | M | Croquis 2 (`respecte la notation —, †, *`) | ✅ |
-| EF-PSAL-10 | Le nom des notes est posé au-dessus des syllabes qui les portent. | M | Croquis 2 (`faire suivre les notes avec les syllabes`) | ✅ Désactivable dans les paramètres |
+| EF-PSAL-10 | La note de chaque syllabe est montrée au-dessus d'elle. | M | Croquis 2 (`faire suivre les notes avec les syllabes`) | ✅ Trois notations au choix : têtes de note à leur hauteur (défaut), noms des notes, ou aucune |
 | EF-PSAL-11 | Un bouton chante le psaume entier sur le ton choisi, en surlignant la syllabe en cours. | M | Croquis 2 (`Ajouter piton play`) | ✅ |
 | EF-PSAL-12 | Un bouton par verset permet de reprendre ce seul verset. | S | Déduit | ✅ |
 | EF-PSAL-13 | L'allure du chant est réglable, pour suivre en apprenant. | S | Déduit du but (`apprendre aux néophytes`) | ✅ Lente / normale / vive |
@@ -68,6 +68,9 @@ Conventions d'identifiants, de priorité et de statut : voir le
 | EF-PSAL-15 | Le texte affiché ne peut en aucun cas différer de celui de l'AELF ; en cas d'écart de reconstruction, l'application renonce au pointage. | M | Technique | ✅ |
 | EF-PSAL-16 | Le ton est mémorisé **par office** ; le ton des paramètres sert de repli et reste modifiable. | S | Fondations | ✅ |
 | EF-PSAL-17 | L'application explique à quoi tient le choix du ton (antienne, semaine du psautier, fêtes, diversité des usages). | S | Fondations (but du croquis 2 : apprendre aux néophytes) | ✅ Dépliant de la feuille Psalmodie |
+| EF-PSAL-18 | La partition du ton reste visible en permanence tant qu'un psaume est à l'écran. | M | Demande explicite (« voir la partition en tout temps ») | ✅ Bandeau bas |
+| EF-PSAL-19 | Pendant le chant, la note entendue s'allume sur cette partition, avec la syllabe et le nom de la note. | M | Demande explicite (« voir la note qui joue ») | ✅ |
+| EF-PSAL-20 | Le texte lui-même se lit comme une partition : chaque syllabe porte sa note à la hauteur du son, la récitation étant figurée par un trait à la hauteur de la teneur. | S | Déduit du besoin visuel | ✅ Portée calée sur l'ambitus du psaume |
 
 ## EF-OFF — Mode hors connexion
 

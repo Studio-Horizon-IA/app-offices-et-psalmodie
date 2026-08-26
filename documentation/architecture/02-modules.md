@@ -15,6 +15,8 @@ flowchart TB
         tparam["ui/drawer-parametres.js"]
         psal["ui/psalmodie.js"]
         chant["ui/chant-psaume.js<br/>texte pointé, chant suivi"]
+        portee["ui/portee.js<br/>portée d'un ton"]
+        bandeau["ui/bandeau-partition.js<br/>partition permanente"]
     end
 
     subgraph L2["Domaine et données"]
@@ -42,7 +44,9 @@ flowchart TB
     main --> store & aelf & sections & offices & cache & date & dom & pwa
     coquille --> store & offices & dom
     liturgie --> dom & sanit & date & chant
-    chant --> dom & sanit & pointage & chantmod & tons & synth & store & coquille
+    chant --> dom & sanit & pointage & chantmod & tons & synth & store & coquille & bandeau
+    bandeau --> dom & tons & portee
+    psal --> portee
     pointage --> syllabes
     chantmod --> pointage
     tjour --> dom & offices & cache & store & date & psautier
@@ -91,6 +95,8 @@ flowchart TB
 | `ui/drawer-parametres.js` | Tous les réglages, barre de progression du téléchargement, statistiques de la réserve | Se redessine entièrement à chaque changement de segment (état unique : `store.parametres`) |
 | `ui/psalmodie.js` | Feuille du bas : ton, instrument, hauteur, portée SVG, écoute | La portée est centrée sur l'ambitus du ton (`milieuAmbitus - 4`) |
 | `ui/chant-psaume.js` | Vue pointée d'un psaume, notes au-dessus des syllabes, chant suivi | Renonce au pointage si le texte reconstruit s'écarte de celui de l'AELF |
+| `ui/portee.js` | Portée d'un ton, partagée par la feuille et le bandeau | Renvoie les têtes indexées par `groupe:index`, ce qui permet d'allumer la note entendue |
+| `ui/bandeau-partition.js` | Bandeau bas : partition visible en permanence, note et syllabe en cours | Affiché tant qu'un psaume est à l'écran |
 
 ### Domaine et données
 

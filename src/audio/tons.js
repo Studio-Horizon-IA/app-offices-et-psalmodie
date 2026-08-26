@@ -120,6 +120,17 @@ export function frequence(note, transposition = 0) {
   return 440 * 2 ** ((midi(note) + transposition - 69) / 12);
 }
 
+const DEGRES_DIATONIQUES = { C: 0, D: 1, E: 2, F: 3, G: 4, A: 5, B: 6 };
+
+/**
+ * Position sur la portée, en degrés diatoniques (do = 0 … si = 6, plus 7 par
+ * octave). C'est la hauteur *visuelle* d'une note, celle qui sert à la placer
+ * sur une ligne ou dans un interligne.
+ */
+export function degreDiatonique(note) {
+  return Number(note.slice(-1)) * 7 + DEGRES_DIATONIQUES[note[0]];
+}
+
 /** Nom français d'une note, pour l'affichage sous la portée. */
 export function nomFrancais(note) {
   const noms = { C: 'do', D: 'ré', E: 'mi', F: 'fa', G: 'sol', A: 'la', B: 'si' };

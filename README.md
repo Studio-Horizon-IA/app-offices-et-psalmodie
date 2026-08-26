@@ -62,6 +62,7 @@ fonctionnent sans HTTPS : la réplique ne gère donc pas TLS.
 | **Lectures ▸ Région** | Zone AELF : calendrier romain, France, Canada, Belgique, Luxembourg, Suisse, Afrique |
 | **Ton ▸ Instru [Piano]** | Huit tons grégoriens + *tonus peregrinus*, portée de repère, écoute au piano, à l'orgue ou à la voix, transposition |
 | **Croquis 2 : apprendre la psalmodie** | Chaque psaume et cantique s'affiche **pointé** — trait de récitation sur la teneur, nom des notes au-dessus des syllabes de cadence, marques `+` (flexe) et `*` (médiante) — avec un bouton **Chanter** par psaume et un ▶ par verset, qui suivent le texte syllabe après syllabe |
+| **Partition permanente** | Un bandeau bas montre la formule du ton tant qu'un psaume est à l'écran, et **allume la note entendue** avec la syllabe chantée ; dans le texte, chaque syllabe porte sa tête de note à la hauteur du son |
 | **Repères d'usage** | La semaine du psautier (I à IV, ou « Psaumes propres » aux fêtes) accompagne le jour ; le ton est mémorisé par office ; un dépliant explique que c'est l'antienne qui commande le ton — voir [`documentation/fondations/`](documentation/fondations/psautier-et-tons.md) |
 | **Affichage : Mode nuit / Taille du texte / Zoom à 2 doigts** | Thème sombre (suit le système par défaut), curseur de taille, pincement à deux doigts sur le texte |
 | **Mode hors connexion** | Contenu conservé (Aucun / Messe / Offices / Messe + Offices), téléchargement à l'avance (jusqu'à 7 jours), durée de conservation, WiFi uniquement, purge du cache |

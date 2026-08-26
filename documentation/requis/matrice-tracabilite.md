@@ -99,6 +99,9 @@ numéro de ligne, afin de rester justes après remaniement.
 | EF-PSAL-15 | `ui/chant-psaume.js` (comparaison hors blancs) | D — le psaume de la messe a d'abord été refusé, puis accepté après correction |
 | EF-PSAL-16 | `core/store.js › tonCourant / reglerTonCourant` | D — choix du ton VIII aux vêpres : `tonsParOffice = {"vepres":"VIII"}` persisté |
 | EF-PSAL-17 | `ui/psalmodie.js › noteDUsage` | D — dépliant « Comment se choisit le ton ? » |
+| EF-PSAL-18 | `ui/bandeau-partition.js` · `ui/portee.js › rendrePortee` | D — bandeau présent avec 17 têtes sur la portée du ton II |
+| EF-PSAL-19 | `ui/portee.js › eclairer` · `audio/chant.js` (champ `position`) | D — « ta » sur « fa », deux têtes de teneur allumées |
+| EF-PSAL-20 | `ui/chant-psaume.js › poserNote` · `--degre-min` / `--pas-degre` | D — ambitus du psaume 142 : `--degre-min = -3`, hauteur 3 degrés |
 | EF-OFF-01 | `data/cache.js` · `data/aelf.js › chargerOffice` | D — réseau coupé, office lu depuis la réserve |
 | EF-OFF-02 | `data/aelf.js › officesAPrecharger` | I |
 | EF-OFF-03 | `data/aelf.js › precharger` · bouton « Lancer » | D |
@@ -154,7 +157,7 @@ numéro de ligne, afin de rester justes après remaniement.
 
 | Ensemble | Réalisé | Partiel | Non réalisé |
 | --- | --- | --- | --- |
-| Exigences fonctionnelles (68) | 66 | 1 (EF-LIT-03) | 1 (EF-PSAL-08, *won't*) |
+| Exigences fonctionnelles (71) | 69 | 1 (EF-LIT-03) | 1 (EF-PSAL-08, *won't*) |
 | Exigences non fonctionnelles (64) | 59 | 2 (ENF-A11Y-11, ENF-COMPAT-01) | 3 (ENF-I18N-04, ENF-MAINT-07, ENF-EXPL-06, tous *won't*) |
 
 Restes à traiter pour une mise en service : mesure effective des contrastes

@@ -152,12 +152,26 @@ export function rendreTiroirParametres() {
       ligneChoix('Instrument', null, INSTRUMENTS, p.instrument, (instrument) =>
         reglerParametre({ instrument })
       ),
-      ligneBascule(
-        'Afficher les notes',
-        'Le nom des notes au-dessus des syllabes des cadences.',
-        p.afficherNotes,
-        (afficherNotes) => {
-          reglerParametre({ afficherNotes });
+      el(
+        'div.reglage',
+        {},
+        el(
+          'span.reglage-texte',
+          {},
+          el('span.reglage-nom', {}, 'Notation au-dessus des syllabes'),
+          el('span.reglage-aide', {}, 'Têtes de note à leur hauteur, nom des notes, ou rien.')
+        )
+      ),
+      segments(
+        'Notation',
+        [
+          { id: 'tetes', nom: 'Notes' },
+          { id: 'noms', nom: 'Noms' },
+          { id: 'aucune', nom: 'Aucune' },
+        ],
+        p.notation ?? 'tetes',
+        (notation) => {
+          reglerParametre({ notation });
           actions.rafraichir();
         }
       ),

@@ -23,6 +23,7 @@ Clé `localStorage` : `offices.parametres.v1`.
 | `ton` | `string` | `'II'` | `I`…`VIII`, `peregrinus` | Ton par défaut, pour les offices sans ton propre |
 | `tonsParOffice` | `objet` | `{}` | `{ laudes: 'I', … }` | Ton retenu office par office, alimenté par la feuille psalmodie |
 | `instrument` | `string` | `'piano'` | `piano`, `orgue`, `voix` | Timbre de la synthèse |
+| `notation` | `string` | `'tetes'` | `tetes`, `noms`, `aucune` | Ce qui s'affiche au-dessus des syllabes : têtes de note à leur hauteur, noms des notes, ou rien |
 | `nuit` | `boolean \| null` | `null` | `null` = suit le système | Thème `data-theme` |
 | `tailleTexte` | `number` | `1` | `0,80` → `2,20` | Variable CSS `--texte-scale` |
 | `zoomDeuxDoigts` | `boolean` | `true` | | Pincement géré par l'application ou par le navigateur |

@@ -2,6 +2,7 @@ import { el, vider, $, icone, ICONES } from '../util/dom.js';
 import { htmlSur } from '../util/sanitize.js';
 import { formatLong, capitaliser } from '../util/date.js';
 import { initChant, monterPsalmodie, arreterChant } from './chant-psaume.js';
+import { masquerBandeau } from './bandeau-partition.js';
 import { semainePsautier } from '../data/psautier.js';
 
 /** Affichage des sections d'un office, avec onglets et balayage gauche/droite. */
@@ -133,6 +134,7 @@ function blocVersElement(bloc) {
 
 export function rendreSection({ section, office, informations, date, source, horsLigne }) {
   arreterChant(); // on ne chante pas par-dessus la section suivante
+  masquerBandeau(); // un psaume dans la section le fera réapparaître
   vider(contenu);
 
   if (horsLigne) {

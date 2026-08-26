@@ -2,10 +2,11 @@ import { el, vider, icone, ICONES } from '../util/dom.js';
 import { texteBrut } from '../util/sanitize.js';
 import { pointerPsaume } from '../data/pointage.js';
 import { planVerset, planPsaume } from '../audio/chant.js';
-import { TONS_PAR_ID, TONS, nomFrancais } from '../audio/tons.js';
+import { TONS_PAR_ID, TONS, nomFrancais, degreDiatonique } from '../audio/tons.js';
 import { jouerSequence, arreter, audioDisponible } from '../audio/synthese.js';
 import { store, tonCourant } from '../core/store.js';
 import { message } from './coquille.js';
+import { initBandeau, afficherBandeau, suivreEtape, reposBandeau } from './bandeau-partition.js';
 
 /**
  * Vue psalmodique d'un psaume : le texte pointé de l'AELF, les notes posées
@@ -22,11 +23,34 @@ let enCours = null; // { spans, image, handle }
 
 export function initChant({ ouvrirPsalmodie }) {
   ouvrirFeuille = ouvrirPsalmodie;
+  initBandeau({ ouvrirPsalmodie });
 }
 
 /* --- Rendu du texte pointé --- */
 
-function rendreLigne(ligne, notes, spans) {
+/**
+ * Tête de note posée au-dessus de la syllabe, à la hauteur du son : c'est la
+ * partition qui se lit en même temps que le texte. La teneur n'en reçoit pas —
+ * le trait continu de récitation la figure déjà.
+ */
+function poserNote(span, plan, teneur) {
+  if (!plan || plan.role === 'teneur') return;
+  const degre = degreDiatonique(plan.note) - degreDiatonique(teneur);
+  span.dataset.note = nomFrancais(plan.note);
+  span.style.setProperty('--degre', degre);
+  span.title = `${nomFrancais(plan.note)} — ${LEGENDE_ROLE[plan.role] ?? plan.role}`;
+  span.append(el('i.tete', { 'aria-hidden': 'true' }));
+  return degre;
+}
+
+const LEGENDE_ROLE = {
+  intonation: 'intonation',
+  mediante: 'médiante',
+  finale: 'terminaison',
+  flexe: 'flexe',
+};
+
+function rendreLigne(ligne, notes, spans, teneur) {
   const fragment = document.createDocumentFragment();
 
   // Les syllabes récitées sur la teneur sont regroupées, avec la ponctuation
@@ -52,7 +76,7 @@ function rendreLigne(ligne, notes, spans) {
       if (jeton.accent) span.classList.add('accent');
       if (plan) {
         span.classList.add(`r-${plan.role}`);
-        if (plan.role !== 'teneur') span.dataset.note = nomFrancais(plan.note);
+        poserNote(span, plan, teneur);
       }
       spans.set(jeton, span);
 
@@ -110,7 +134,7 @@ function tableDesNotes(etapes) {
   return table;
 }
 
-function rendreVerset(verset, notes, index, surChanterVerset, spans) {
+function rendreVerset(verset, notes, index, surChanterVerset, spans, teneur) {
   const paragraphe = el('p.verset');
 
   const bouton = el(
@@ -132,7 +156,7 @@ function rendreVerset(verset, notes, index, surChanterVerset, spans) {
     if (!premiere) paragraphe.append(el('br'));
     premiere = false;
     const span = el('span.ligne', { dataset: { cadence: ligne.cadence ?? 'recitatif' } });
-    span.append(rendreLigne(ligne, notes, spans));
+    span.append(rendreLigne(ligne, notes, spans, teneur));
     paragraphe.append(span);
   }
   return paragraphe;
@@ -146,6 +170,7 @@ function arreterSuivi() {
   enCours.bouton?.classList.remove('en-lecture');
   if (enCours.bouton) majBouton(enCours.bouton, false);
   enCours = null;
+  reposBandeau();
 }
 
 export function arreterChant() {
@@ -156,6 +181,7 @@ export function arreterChant() {
 function suivre(handle, spans) {
   let curseur = 0;
   let precedent = null;
+  let etapePrecedente;
 
   const boucle = () => {
     if (!enCours || enCours.handle !== handle) return;
@@ -164,14 +190,20 @@ function suivre(handle, spans) {
     while (curseur < handle.jalons.length && handle.jalons[curseur].fin <= maintenant) {
       curseur += 1;
     }
-    const jalon = handle.jalons[curseur];
-    const span = jalon?.etape.syllabe ? spans.get(jalon.etape.syllabe) : null;
+    const etape = handle.jalons[curseur]?.etape ?? null;
+    const span = etape?.syllabe ? spans.get(etape.syllabe) : null;
 
     if (span !== precedent) {
       precedent?.classList.remove('chante');
       span?.classList.add('chante');
       if (span) garderEnVue(span);
       precedent = span;
+    }
+
+    // Le bandeau suit toutes les étapes, silences compris.
+    if (etape !== etapePrecedente) {
+      suivreEtape(etape);
+      etapePrecedente = etape;
     }
 
     if (curseur < handle.jalons.length) requestAnimationFrame(boucle);
@@ -208,14 +240,25 @@ export function monterPsalmodie(article, bloc) {
   const spans = new Map();
 
   const corps = el('div.bloc-corps.psalmodie-texte');
-  const notes = tableDesNotes(planPsaume(versets, ton));
+  const etapes = planPsaume(versets, ton);
+  const notes = tableDesNotes(etapes);
+
+  // La portée du texte est calée sur la note la plus grave du psaume : aucune
+  // tête ne peut ainsi retomber dans les lettres.
+  const degres = etapes
+    .filter((e) => e.note)
+    .map((e) => degreDiatonique(e.note) - degreDiatonique(ton.teneur));
+  const degreMin = Math.min(0, ...degres);
+  const degreMax = Math.max(0, ...degres);
+  corps.style.setProperty('--degre-min', degreMin);
+  corps.style.setProperty('--degres-hauteur', degreMax - degreMin);
 
   const chanterVerset = (index) => {
     lancer(planVerset(versets[index], ton, { intonation: index === 0 }));
   };
 
   versets.forEach((verset, index) => {
-    corps.append(rendreVerset(verset, notes, index, chanterVerset, spans));
+    corps.append(rendreVerset(verset, notes, index, chanterVerset, spans, ton.teneur));
   });
 
   // Garde-fou : le texte affiché doit rester rigoureusement celui de l'AELF.
@@ -266,10 +309,13 @@ export function monterPsalmodie(article, bloc) {
   );
 
   // Le corps d'origine cède la place au texte pointé.
+  // La partition du ton reste sous les yeux tant qu'un psaume est à l'écran.
+  afficherBandeau(ton);
+
   article.querySelector('.bloc-corps')?.replaceWith(corps);
   article.append(barre);
   article.classList.add('psalmodie');
-  if (store.parametres.afficherNotes === false) article.classList.add('sans-notes');
+  article.classList.add(`notation-${store.parametres.notation ?? 'tetes'}`);
 
   return true;
 }

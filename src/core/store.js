@@ -9,7 +9,7 @@ const PAR_DEFAUT = {
   ton: 'II', // ton par défaut, quand l'office n'en a pas de propre
   tonsParOffice: {}, // { laudes: 'I', vepres: 'VIII', … }
   instrument: 'piano',
-  afficherNotes: true, // notes posées au-dessus des syllabes
+  notation: 'tetes', // 'tetes' | 'noms' | 'aucune' — au-dessus des syllabes
   allureChant: 1, // 0,75 = lent (apprentissage), 1,25 = vif
   // Affichage
   nuit: null, // null = suit le système
