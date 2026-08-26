@@ -117,12 +117,18 @@ export function enLecture() {
 }
 
 /**
- * Joue la formule d'un ton. `surFin` est appelé à la fin naturelle comme à
- * l'arrêt manuel, pour que l'interface reste synchronisée.
+ * Joue une suite d'étapes `{ note, duree }` — `note` valant `null` pour un
+ * silence. Renvoie l'horaire de chaque étape sur l'horloge audio, ce qui permet
+ * à l'interface de suivre le chant syllabe par syllabe sans dériver.
+ *
+ * `surFin` est appelé à la fin naturelle comme à l'arrêt manuel.
  */
-export function jouerTon(ton, { instrument = 'piano', transposition = 0, allure = 1, surFin } = {}) {
+export function jouerSequence(
+  etapes,
+  { instrument = 'piano', transposition = 0, allure = 1, surFin } = {}
+) {
   const ctx = audio();
-  if (!ctx) return false;
+  if (!ctx) return null;
   arreter();
 
   const timbre = TIMBRES[instrument] ?? TIMBRES.piano;
@@ -130,10 +136,16 @@ export function jouerTon(ton, { instrument = 'piano', transposition = 0, allure 
   sortie.gain.setValueAtTime(0.16, ctx.currentTime);
   sortie.connect(ctx.destination);
 
-  let curseur = ctx.currentTime + 0.06;
-  for (const { note, duree } of sequence(ton)) {
-    const longueur = duree / allure;
-    if (note) jouerNote(ctx, sortie, frequence(note, transposition), curseur, longueur, timbre);
+  const depart = ctx.currentTime + 0.06;
+  let curseur = depart;
+  const jalons = [];
+
+  for (const etape of etapes) {
+    const longueur = etape.duree / allure;
+    if (etape.note) {
+      jouerNote(ctx, sortie, frequence(etape.note, transposition), curseur, longueur, timbre);
+    }
+    jalons.push({ etape, debut: curseur, fin: curseur + longueur });
     curseur += longueur;
   }
 
@@ -147,5 +159,11 @@ export function jouerTon(ton, { instrument = 'piano', transposition = 0, allure 
       surFin?.();
     }, total),
   };
-  return true;
+
+  return { ctx, depart, fin: curseur, jalons };
+}
+
+/** Joue la formule nue d'un ton, sans texte : l'aide à l'intonation. */
+export function jouerTon(ton, options = {}) {
+  return Boolean(jouerSequence(sequence(ton), options));
 }

@@ -30,6 +30,7 @@ Conventions d'identifiants, de priorité et de statut : voir le
 | EF-NAV-06 | Le tiroir indique quels offices sont déjà lisibles hors connexion. | S | Déduit | ✅ |
 | EF-NAV-07 | Les heures sont accompagnées de leur horaire indicatif. | C | Déduit | ✅ |
 | EF-NAV-08 | L'application propose des raccourcis d'ouverture directe (Laudes, Vêpres, Complies, Messe) depuis l'icône installée. | C | Déduit | ✅ |
+| EF-NAV-09 | La semaine du psautier (I à IV) est affichée avec le jour ; les fêtes indiquent « Psaumes propres » ; rien n'est affiché quand le calendrier ne permet pas de conclure. | S | Fondations | ✅ Voir [Psautier et tons](../fondations/psautier-et-tons.md) |
 
 ## EF-PARAM — Réglages
 
@@ -58,6 +59,18 @@ Conventions d'identifiants, de priorité et de statut : voir le
 | EF-PSAL-06 | Le ton est accessible depuis la barre du haut et depuis chaque psaume ou cantique. | S | Croquis (♪ dans la barre) | ✅ |
 | EF-PSAL-07 | Une écoute en cours peut être arrêtée, et une nouvelle écoute interrompt la précédente. | S | Déduit | ✅ |
 | EF-PSAL-08 | Les formules complètes (toutes les différences par mode) sont proposées. | W | Déduit | ⛔ Une cadence courante par ton ; limite énoncée dans l'interface. |
+| EF-PSAL-09 | Chaque psaume et cantique s'affiche **pointé** : trait de récitation sur la teneur, cadences distinguées, marques `+` et `*` mises en évidence. | M | Croquis 2 (`respecte la notation —, †, *`) | ✅ |
+| EF-PSAL-10 | La note de chaque syllabe est montrée au-dessus d'elle. | M | Croquis 2 (`faire suivre les notes avec les syllabes`) | ✅ Trois notations au choix : têtes de note à leur hauteur (défaut), noms des notes, ou aucune |
+| EF-PSAL-11 | Un bouton chante le psaume entier sur le ton choisi, en surlignant la syllabe en cours. | M | Croquis 2 (`Ajouter piton play`) | ✅ |
+| EF-PSAL-12 | Un bouton par verset permet de reprendre ce seul verset. | S | Déduit | ✅ |
+| EF-PSAL-13 | L'allure du chant est réglable, pour suivre en apprenant. | S | Déduit du but (`apprendre aux néophytes`) | ✅ Lente / normale / vive |
+| EF-PSAL-14 | Le pointage et le chant s'appliquent à **toutes** les parties psalmodiées de **tous** les offices. | M | Croquis 2 (`APPLIQUER À CHAQUES PARTIES DE CHAQUE OFFICE`) | ✅ 12 parties vérifiées, dont le psaume de la messe |
+| EF-PSAL-15 | Le texte affiché ne peut en aucun cas différer de celui de l'AELF ; en cas d'écart de reconstruction, l'application renonce au pointage. | M | Technique | ✅ |
+| EF-PSAL-16 | Le ton est mémorisé **par office** ; le ton des paramètres sert de repli et reste modifiable. | S | Fondations | ✅ |
+| EF-PSAL-17 | L'application explique à quoi tient le choix du ton (antienne, semaine du psautier, fêtes, diversité des usages). | S | Fondations (but du croquis 2 : apprendre aux néophytes) | ✅ Dépliant de la feuille Psalmodie |
+| EF-PSAL-18 | La partition du ton reste visible en permanence tant qu'un psaume est à l'écran. | M | Demande explicite (« voir la partition en tout temps ») | ✅ Bandeau bas |
+| EF-PSAL-19 | Pendant le chant, la note entendue s'allume sur cette partition, avec la syllabe et le nom de la note. | M | Demande explicite (« voir la note qui joue ») | ✅ |
+| EF-PSAL-20 | Le texte lui-même se lit comme une partition : chaque syllabe porte sa note à la hauteur du son, la récitation étant figurée par un trait à la hauteur de la teneur. | S | Déduit du besoin visuel | ✅ Portée calée sur l'ambitus du psaume |
 
 ## EF-OFF — Mode hors connexion
 

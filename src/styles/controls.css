@@ -23,6 +23,165 @@
   font-weight: 600;
 }
 
+/* Semaine du psautier : information de cycle, pas de titre. */
+.drawer-entete .psautier {
+  display: inline-block;
+  margin-top: 0.45rem;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--trait);
+  border-radius: 999px;
+  background: var(--fond);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: var(--encre-douce);
+  cursor: help;
+}
+
+/* --- Mode tutoriel : légende des signes et visite guidée --- */
+
+.psalmodie-legende {
+  margin-top: 0.85rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px dashed var(--trait-fort);
+  border-radius: var(--rayon);
+  background: var(--fond-eleve);
+  font-size: 0.82rem;
+  color: var(--encre-douce);
+}
+
+.psalmodie-legende ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 0 0 0.6rem;
+  padding: 0;
+  list-style: none;
+}
+
+.psalmodie-legende li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legende-signe {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  flex: 0 0 auto;
+  color: var(--liturgique);
+  font-weight: 700;
+}
+
+.legende-signe.trait::before {
+  content: '';
+  width: 1.4rem;
+  height: 2px;
+  background: var(--trait-fort);
+}
+
+.legende-signe.point::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  background: var(--liturgique);
+  transform: rotate(-18deg);
+}
+
+.psalmodie-legende .bouton {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.82rem;
+}
+
+.psalmodie-legende .bouton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Visite guidée : projecteur sur l'élément expliqué. */
+.tutoriel {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+}
+
+.tutoriel-trou {
+  position: absolute;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 9999px rgb(20 17 14 / 68%), 0 0 0 2px var(--liturgique);
+  transition: top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease;
+  pointer-events: none;
+}
+
+.tutoriel-bulle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(24rem, calc(100vw - 2rem));
+  padding: 1rem 1.1rem;
+  border-radius: var(--rayon);
+  background: var(--fond-eleve);
+  box-shadow: var(--ombre);
+  transition: top 0.2s ease;
+}
+
+.tutoriel-etape {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--encre-tenue);
+}
+
+.tutoriel-bulle h2 {
+  margin: 0 0 0.4rem;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+}
+
+.tutoriel-bulle p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--encre-douce);
+}
+
+.tutoriel-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.tutoriel-actions .bouton {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+/* Note d'usage dépliable de la feuille psalmodie. */
+.psalmodie-note {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--trait);
+  font-size: 0.85rem;
+  color: var(--encre-douce);
+}
+
+.psalmodie-note summary {
+  cursor: pointer;
+  color: var(--liturgique);
+  font-weight: 600;
+}
+
+.psalmodie-note p {
+  margin: 0.6rem 0 0;
+  line-height: 1.5;
+}
+
+.psalmodie-note strong {
+  color: var(--encre);
+}
+
 /* Navigation de date */
 .date-nav {
   display: flex;

@@ -12,8 +12,8 @@ Là où l'architecture explique *comment c'est bâti*, ces documents disent
 | [SPEC-04 — Psalmodie](SPEC-04-psalmodie.md) | Tons, formules, portée, synthèse sonore |
 | [SPEC-05 — Hors connexion](SPEC-05-hors-connexion.md) | Stratégies de cache, préchargement, conservation, purge, mises à jour |
 
-Documents liés : [architecture](../architecture/README.md) ·
-[exigences](../requis/README.md) · croquis d'origine
+Documents liés : [fondations liturgiques](../fondations/README.md) ·
+[architecture](../architecture/README.md) · [exigences](../requis/README.md) · croquis d'origine
 `documentation/croquis/PXL_20260825_232044626.jpg`.
 
 ## Conventions

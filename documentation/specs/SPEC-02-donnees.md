@@ -20,8 +20,10 @@ Clé `localStorage` : `offices.parametres.v1`.
 | Champ | Type | Défaut | Valeurs | Effet |
 | --- | --- | --- | --- | --- |
 | `region` | `string` | `'france'` | `romain`, `france`, `canada`, `belgique`, `luxembourg`, `suisse`, `afrique` | Zone AELF interrogée ; participe à la clé de cache |
-| `ton` | `string` | `'II'` | `I`…`VIII`, `peregrinus` | Ton proposé par la feuille psalmodie |
+| `ton` | `string` | `'II'` | `I`…`VIII`, `peregrinus` | Ton par défaut, pour les offices sans ton propre |
+| `tonsParOffice` | `objet` | `{}` | `{ laudes: 'I', … }` | Ton retenu office par office, alimenté par la feuille psalmodie |
 | `instrument` | `string` | `'piano'` | `piano`, `orgue`, `voix` | Timbre de la synthèse |
+| `notation` | `string` | `'tetes'` | `tetes`, `noms`, `aucune` | Ce qui s'affiche au-dessus des syllabes : têtes de note à leur hauteur, noms des notes, ou rien |
 | `nuit` | `boolean \| null` | `null` | `null` = suit le système | Thème `data-theme` |
 | `tailleTexte` | `number` | `1` | `0,80` → `2,20` | Variable CSS `--texte-scale` |
 | `zoomDeuxDoigts` | `boolean` | `true` | | Pincement géré par l'application ou par le navigateur |
@@ -101,7 +103,7 @@ Bloc = {
   ref: string | null,        // « Psaume 23 », « Mt 23, 23-26 »
   html: string,              // HTML brut de l'AELF, assaini à l'insertion
   source: string | null,     // « D. Rimaud — CNPL », ou l'intro lue
-  psalmodiable: boolean      // affiche le bouton « Donner le ton »
+  psalmodiable: boolean      // affiche le texte pointé et le chant suivi
 }
 ```
 

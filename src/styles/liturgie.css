@@ -132,6 +132,179 @@
   color: var(--encre-douce);
 }
 
+/* --- Vue psalmodique : texte pointé, notes, lecture chantée --- */
+
+.psalmodie-texte {
+  /* Portée du texte. `--degre-min` et `--degres-hauteur` sont posés par le JS
+     d'après l'ambitus réel du psaume : la note la plus grave se place juste
+     au-dessus des lettres, et l'interligne s'ouvre d'autant. */
+  --pas-degre: 0.28em;
+  --base-portee: 1.15em;
+  --degre-min: 0;
+  --degres-hauteur: 4;
+
+  line-height: calc(
+    var(--lecture-interligne) * 1em + var(--base-portee) + var(--degres-hauteur) * var(--pas-degre)
+  );
+}
+
+/* Hauteur d'un degré donné dans cette portée. */
+.psalmodie-texte .syl {
+  --hauteur-note: calc(
+    var(--base-portee) + (var(--degre, 0) - var(--degre-min)) * var(--pas-degre)
+  );
+}
+
+.psalmodie-texte .verset {
+  position: relative;
+  margin: 0 0 1rem;
+  padding-left: 1.9rem;
+}
+
+.verset-play {
+  position: absolute;
+  left: -0.15rem;
+  top: 0.15em;
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  border: 1px solid var(--trait);
+  border-radius: 50%;
+  background: var(--fond-eleve);
+  color: var(--encre-tenue);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.verset-play svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  fill: currentColor;
+  stroke: none;
+}
+
+.verset:hover .verset-play,
+.verset-play:focus-visible {
+  opacity: 1;
+  color: var(--liturgique);
+  border-color: var(--liturgique);
+}
+
+/* La syllabe : support de la note et du surlignage. */
+.syl {
+  position: relative;
+  white-space: pre-wrap;
+}
+
+.syl.accent {
+  font-weight: 700;
+  color: var(--liturgique);
+}
+
+/* Récitation sur la teneur : trait continu à la hauteur de la teneur, dans la
+   même portée que les têtes de note — le « — » du pointage. */
+.syl.r-teneur::after {
+  content: '';
+  position: absolute;
+  left: -0.42ch;
+  right: -0.42ch;
+  bottom: calc(var(--base-portee) + (0 - var(--degre-min)) * var(--pas-degre));
+  height: 0.08em;
+  background: var(--trait-fort);
+  pointer-events: none;
+}
+
+/* Tête de note, posée à la hauteur du son au-dessus de la syllabe : la
+   partition se lit en même temps que le texte. */
+.syl .tete {
+  position: absolute;
+  left: 50%;
+  bottom: var(--hauteur-note);
+  width: 0.46em;
+  height: 0.34em;
+  transform: translate(-50%, 50%) rotate(-18deg);
+  border-radius: 50%;
+  background: var(--liturgique);
+  pointer-events: none;
+}
+
+/* Nom de la note, au-dessus de la tête. */
+.syl[data-note]::before {
+  content: attr(data-note);
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--hauteur-note) + 0.15em);
+  transform: translateX(-50%);
+  font-family: var(--sans);
+  font-size: 0.54em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  color: var(--liturgique);
+  opacity: 0.75;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Trois notations possibles : têtes de note, noms des notes, ou rien. */
+.bloc.notation-tetes .syl[data-note]::before,
+.bloc.notation-aucune .syl[data-note]::before,
+.bloc.notation-aucune .syl .tete {
+  display: none;
+}
+
+.bloc.notation-noms .syl .tete {
+  display: none;
+}
+
+.syl.r-intonation {
+  color: var(--encre-douce);
+}
+
+.syl.chante {
+  border-radius: 3px;
+  background: var(--liturgique);
+  color: var(--fond-eleve);
+  box-shadow: none;
+}
+
+.syl.chante::before {
+  opacity: 1;
+  color: var(--liturgique);
+}
+
+/* La tête de note s'allume avec sa syllabe. */
+.syl.chante .tete {
+  background: var(--encre);
+  box-shadow: 0 0 0 0.12em var(--accent-doux);
+}
+
+/* Marques de pointage de l'AELF : « + » flexe, « * » médiante. */
+.psalmodie-texte .marque {
+  padding: 0 0.15em;
+  border: 0;
+  color: var(--liturgique);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: help;
+}
+
+.psalmodie-barre {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.7rem;
+}
+
+.chant-play svg {
+  fill: currentColor;
+  stroke: none;
+}
+
 /* Bouton « jouer le ton » posé près d'un psaume */
 .psalmodie-lien {
   display: inline-flex;

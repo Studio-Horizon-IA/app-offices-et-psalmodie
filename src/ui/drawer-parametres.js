@@ -1,10 +1,12 @@
 import { el, vider, $ } from '../util/dom.js';
 import { store, reglerParametre } from '../core/store.js';
-import { REGIONS } from '../data/offices.js';
+import { REGIONS, OFFICES_PAR_ID } from '../data/offices.js';
 import { TONS } from '../audio/tons.js';
 import { INSTRUMENTS } from '../audio/synthese.js';
 import { statistiquesCache } from '../data/cache.js';
 import { appliquerTheme, appliquerTaille, appliquerTouchAction } from './coquille.js';
+import { lancerVisite } from './tutoriel.js';
+import { fermerPanneau } from './coquille.js';
 
 /** Tiroir de droite : tous les réglages du croquis. */
 
@@ -100,6 +102,42 @@ export function rendreTiroirParametres() {
 
   corps.append(el('div.drawer-entete', {}, el('h2', {}, 'Paramètres')));
 
+  /* Modes — ce qui s'active et se désactive d'un geste */
+  corps.append(
+    el(
+      'section.groupe',
+      {},
+      titre('Modes'),
+      ligneBascule(
+        'Mode tutoriel',
+        'Partition du ton en bas d’écran, notes au-dessus des syllabes, légende, explications et visite guidée. Éteint, il ne reste que le texte pointé.',
+        p.modeTutoriel !== false,
+        (modeTutoriel) => {
+          reglerParametre({ modeTutoriel });
+          // Le tiroir se redessine : la visite guidée et le choix de notation
+          // n'ont plus lieu d'être quand le mode s'éteint.
+          rendreTiroirParametres();
+          actions.rafraichir();
+        }
+      ),
+      p.modeTutoriel === false
+        ? null
+        : ligneAction('Visite guidée', 'Reprendre les explications depuis le début.', 'Lancer', () => {
+            fermerPanneau();
+            setTimeout(() => lancerVisite(), 320);
+          }),
+      ligneBascule(
+        'Mode nuit',
+        'Fond sombre et encre chaude pour les offices de nuit.',
+        document.documentElement.dataset.theme === 'nuit',
+        (valeur) => {
+          reglerParametre({ nuit: valeur });
+          appliquerTheme();
+        }
+      )
+    )
+  );
+
   /* Lectures */
   corps.append(
     el(
@@ -125,14 +163,84 @@ export function rendreTiroirParametres() {
       {},
       titre('Psalmodie'),
       ligneChoix(
-        'Ton',
+        'Ton par défaut',
         null,
         TONS.map((t) => ({ id: t.id, nom: `${t.nom} — ${t.mode}` })),
         p.ton,
         (ton) => reglerParametre({ ton })
       ),
+      el(
+        'p.reglage-aide',
+        { style: 'padding:.15rem 1.1rem .5rem' },
+        'Chaque office retient le ton choisi dans la feuille Psalmodie ; ce ton-ci sert aux offices sans choix propre.'
+      ),
+      Object.keys(p.tonsParOffice ?? {}).length
+        ? ligneAction(
+            'Oublier les tons par office',
+            Object.entries(p.tonsParOffice)
+              .map(([id, ton]) => `${OFFICES_PAR_ID[id]?.nom ?? id} : ${ton}`)
+              .join(' · '),
+            'Réinitialiser',
+            () => {
+              reglerParametre({ tonsParOffice: {} });
+              rendreTiroirParametres();
+            }
+          )
+        : null,
       ligneChoix('Instrument', null, INSTRUMENTS, p.instrument, (instrument) =>
         reglerParametre({ instrument })
+      ),
+      // La notation appartient au mode tutoriel : hors de lui, rien ne
+      // surplombe les syllabes et le réglage n'aurait plus de prise.
+      p.modeTutoriel === false
+        ? null
+        : el(
+            'div.reglage',
+            {},
+            el(
+              'span.reglage-texte',
+              {},
+              el('span.reglage-nom', {}, 'Notation au-dessus des syllabes'),
+              el('span.reglage-aide', {}, 'Têtes de note à leur hauteur, nom des notes, ou rien.')
+            )
+          ),
+      p.modeTutoriel === false
+        ? null
+        : segments(
+            'Notation',
+            [
+              { id: 'tetes', nom: 'Notes' },
+              { id: 'noms', nom: 'Noms' },
+              { id: 'aucune', nom: 'Aucune' },
+            ],
+            p.notation ?? 'tetes',
+            (notation) => {
+              reglerParametre({ notation });
+              actions.rafraichir();
+            }
+          ),
+      el(
+        'div.reglage',
+        {},
+        el(
+          'span.reglage-texte',
+          {},
+          el('span.reglage-nom', {}, 'Allure du chant'),
+          el('span.reglage-aide', {}, 'Ralentir aide à suivre le texte en apprenant.')
+        )
+      ),
+      segments(
+        'Allure du chant',
+        [
+          { id: 0.7, nom: 'Lente' },
+          { id: 1, nom: 'Normale' },
+          { id: 1.3, nom: 'Vive' },
+        ],
+        p.allureChant,
+        (allureChant) => {
+          reglerParametre({ allureChant });
+          rendreTiroirParametres();
+        }
       )
     )
   );
@@ -161,15 +269,6 @@ export function rendreTiroirParametres() {
       'section.groupe',
       {},
       titre('Affichage'),
-      ligneBascule(
-        'Mode nuit',
-        'Fond sombre et encre chaude pour les offices de nuit.',
-        document.documentElement.dataset.theme === 'nuit',
-        (valeur) => {
-          reglerParametre({ nuit: valeur });
-          appliquerTheme();
-        }
-      ),
       el('div.reglage', {}, el('span.reglage-texte', {}, el('span.reglage-nom', {}, 'Taille du texte'))),
       el('div.curseur', {}, curseur, apercu),
       ligneBascule(

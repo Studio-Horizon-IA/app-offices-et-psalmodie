@@ -6,6 +6,11 @@
  * Les notes sont écrites en notation anglaise avec octave (A4 = la du diapason).
  */
 
+/*
+ * `flexa` est la note de la flexe, marquée « + » dans les textes de l'AELF :
+ * la voix descend d'un ton sous la teneur, ou d'une tierce mineure quand il n'y
+ * a qu'un demi-ton en dessous (tons II, III, V et VIII).
+ */
 export const TONS = [
   {
     id: 'I',
@@ -13,6 +18,7 @@ export const TONS = [
     mode: 'Ré, teneur La',
     intonation: ['D4', 'F4', 'G4', 'A4'],
     teneur: 'A4',
+    flexa: 'G4',
     mediante: ['A4', 'G4', 'F4', 'G4'],
     terminaison: ['A4', 'G4', 'F4', 'E4', 'D4'],
   },
@@ -22,6 +28,7 @@ export const TONS = [
     mode: 'Ré, teneur Fa',
     intonation: ['C4', 'D4', 'F4'],
     teneur: 'F4',
+    flexa: 'D4',
     mediante: ['F4', 'E4', 'D4', 'F4'],
     terminaison: ['F4', 'E4', 'D4', 'C4', 'D4'],
   },
@@ -31,6 +38,7 @@ export const TONS = [
     mode: 'Mi, teneur Do',
     intonation: ['G4', 'A4', 'C5'],
     teneur: 'C5',
+    flexa: 'A4',
     mediante: ['C5', 'B4', 'C5', 'A4'],
     terminaison: ['C5', 'B4', 'A4', 'G4', 'A4'],
   },
@@ -40,6 +48,7 @@ export const TONS = [
     mode: 'Mi, teneur La',
     intonation: ['E4', 'F4', 'G4', 'A4'],
     teneur: 'A4',
+    flexa: 'G4',
     mediante: ['A4', 'G4', 'F4', 'G4'],
     terminaison: ['G4', 'A4', 'G4', 'F4', 'E4'],
   },
@@ -49,6 +58,7 @@ export const TONS = [
     mode: 'Fa, teneur Do',
     intonation: ['F4', 'A4', 'C5'],
     teneur: 'C5',
+    flexa: 'A4',
     mediante: ['C5', 'B4', 'C5', 'A4'],
     terminaison: ['C5', 'A4', 'G4', 'F4'],
   },
@@ -58,6 +68,7 @@ export const TONS = [
     mode: 'Fa, teneur La',
     intonation: ['F4', 'G4', 'A4'],
     teneur: 'A4',
+    flexa: 'G4',
     mediante: ['A4', 'G4', 'F4', 'G4'],
     terminaison: ['G4', 'F4', 'E4', 'F4'],
   },
@@ -67,6 +78,7 @@ export const TONS = [
     mode: 'Sol, teneur Ré',
     intonation: ['G4', 'A4', 'B4', 'D5'],
     teneur: 'D5',
+    flexa: 'C5',
     mediante: ['D5', 'C5', 'B4', 'C5'],
     terminaison: ['D5', 'C5', 'B4', 'A4', 'G4'],
   },
@@ -76,6 +88,7 @@ export const TONS = [
     mode: 'Sol, teneur Do',
     intonation: ['G4', 'A4', 'C5'],
     teneur: 'C5',
+    flexa: 'A4',
     mediante: ['C5', 'B4', 'C5', 'A4'],
     terminaison: ['C5', 'B4', 'A4', 'G4'],
   },
@@ -86,6 +99,7 @@ export const TONS = [
     intonation: ['G4', 'A4', 'C5'],
     teneur: 'A4',
     teneurSeconde: 'G4',
+    flexa: 'G4',
     mediante: ['C5', 'B4', 'A4'],
     terminaison: ['G4', 'F4', 'E4', 'D4'],
   },
@@ -104,6 +118,17 @@ export function midi(note) {
 
 export function frequence(note, transposition = 0) {
   return 440 * 2 ** ((midi(note) + transposition - 69) / 12);
+}
+
+const DEGRES_DIATONIQUES = { C: 0, D: 1, E: 2, F: 3, G: 4, A: 5, B: 6 };
+
+/**
+ * Position sur la portée, en degrés diatoniques (do = 0 … si = 6, plus 7 par
+ * octave). C'est la hauteur *visuelle* d'une note, celle qui sert à la placer
+ * sur une ligne ou dans un interligne.
+ */
+export function degreDiatonique(note) {
+  return Number(note.slice(-1)) * 7 + DEGRES_DIATONIQUES[note[0]];
 }
 
 /** Nom français d'une note, pour l'affichage sous la portée. */
