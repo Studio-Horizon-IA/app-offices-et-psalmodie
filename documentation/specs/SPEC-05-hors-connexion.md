@@ -72,7 +72,7 @@ Points spécifiés ici :
 | --- | --- |
 | Enregistrement | Production uniquement (`import.meta.env.PROD`), sur l'événement `load` |
 | Portée | `/` |
-| Précache | Liste réelle des fichiers de `dist/` injectée au build, `.map` et `.txt` exclus, avec `cache: 'reload'` pour ne pas figer une réponse déjà périmée |
+| Précache | Liste réelle des fichiers de `docs/` injectée au build, `.map` et `.txt` exclus, avec `cache: 'reload'` pour ne pas figer une réponse déjà périmée |
 | Activation | `skipWaiting()` + `clients.claim()` ; les caches `coquille-*` d'autres versions sont supprimés |
 | Requêtes non-GET | Ignorées |
 | Navigation hors ligne | `/index.html`, puis `/`, puis réponse 503 « Hors connexion » en texte brut |

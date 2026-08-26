@@ -11,7 +11,7 @@ flowchart LR
     end
 
     aelf[("API AELF<br/>api.aelf.org/v1<br/>textes liturgiques")]
-    heberg[["Hébergement statique<br/>(fichiers de dist/)"]]
+    heberg[["Hébergement statique<br/>(fichiers de docs/)"]]
 
     orant -->|"lit un office,<br/>écoute un ton"| app
     app -->|"HTTPS GET, JSON, CORS ouvert"| aelf
@@ -67,7 +67,7 @@ second filet de sécurité hors connexion (voir [04 — Stockage](04-stockage.md
 
 ```mermaid
 flowchart LR
-    dev["Poste de développement"] -->|"npm run build"| dist["dist/<br/>index.html · assets/*.hachés<br/>sw.js · manifest · icônes"]
+    dev["Poste de développement"] -->|"npm run build"| dist["docs/<br/>index.html · assets/*.hachés<br/>sw.js · manifest · icônes"]
     dist -->|"copie"| cdn[["Hébergement statique HTTPS<br/>(racine du domaine)"]]
     cdn --> nav["Navigateur"]
     nav -->|"install PWA"| ecran["Icône sur l'écran d'accueil"]
@@ -89,13 +89,13 @@ Contraintes de déploiement :
 ```mermaid
 flowchart LR
     src["src/ + index.html"] -->|"Vite (rollup)"| bundle["assets/index-HASH.js<br/>assets/index-HASH.css"]
-    pub["public/*<br/>(sw.js, manifeste, icônes)"] -->|"copie telle quelle"| dist2["dist/"]
+    pub["public/*<br/>(sw.js, manifeste, icônes)"] -->|"copie telle quelle"| dist2["docs/"]
     bundle --> dist2
-    dist2 -->|"plugin sw-precache-manifest<br/>(closeBundle)"| swfinal["dist/sw.js<br/>PRECACHE = liste réelle<br/>VERSION = horodatage"]
+    dist2 -->|"plugin sw-precache-manifest<br/>(closeBundle)"| swfinal["docs/sw.js<br/>PRECACHE = liste réelle<br/>VERSION = horodatage"]
 ```
 
 Le plugin `serviceWorkerManifest()` de `vite.config.js` lit l'arborescence de
-`dist/` après l'écriture du bundle, en retire `sw.js` et les fichiers `.map` /
+`docs/` après l'écriture du bundle, en retire `sw.js` et les fichiers `.map` /
 `.txt`, puis remplace dans `sw.js` les deux marqueurs `'__PRECACHE_MANIFEST__'`
 et `__BUILD_ID__`. En développement les marqueurs restent en place : la liste est
 inerte et le service worker n'est de toute façon pas enregistré.

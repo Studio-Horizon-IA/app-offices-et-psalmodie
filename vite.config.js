@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite';
 import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
-import { join, relative, posix, sep } from 'node:path';
+import { join, relative, resolve, posix, sep } from 'node:path';
 
 const PRECACHE_TOKEN = '__PRECACHE_MANIFEST__';
 const VERSION_TOKEN = '__BUILD_ID__';
+
+/** Dossier de sortie du build. */
+const DOSSIER_SORTIE = 'docs';
 
 /** Fichiers jamais utiles hors connexion (sources de cartes, archives, etc.). */
 const SKIP = /\.(map|txt)$/;
@@ -22,13 +25,19 @@ function listFiles(dir, root = dir) {
  * fichiers émis (noms hachés compris) pour que le shell soit précaché en entier.
  */
 function serviceWorkerManifest() {
+  let dossier = null;
+
   return {
     name: 'sw-precache-manifest',
     apply: 'build',
+    // Le dossier de sortie est lu dans la configuration résolue plutôt que
+    // codé en dur : le plugin suit `build.outDir` quel qu'il soit.
+    configResolved(config) {
+      dossier = resolve(config.root, config.build.outDir);
+    },
     closeBundle() {
-      const outDir = join(process.cwd(), 'dist');
-      const swPath = join(outDir, 'sw.js');
-      const assets = listFiles(outDir)
+      const swPath = join(dossier, 'sw.js');
+      const assets = listFiles(dossier)
         .filter((f) => f !== '/sw.js' && !SKIP.test(f))
         .sort();
       const source = readFileSync(swPath, 'utf8')
@@ -44,5 +53,5 @@ function serviceWorkerManifest() {
 export default defineConfig({
   plugins: [serviceWorkerManifest()],
   server: { port: 5173 },
-  build: { target: 'es2020', sourcemap: true },
+  build: { target: 'es2020', sourcemap: true, outDir: DOSSIER_SORTIE, emptyOutDir: true },
 });

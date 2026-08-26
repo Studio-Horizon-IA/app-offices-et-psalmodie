@@ -11,12 +11,16 @@ Réalisée d'après le croquis `documentation/croquis/PXL_20260825_232044626.jpg
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm run build      # produit dist/
-npm run preview    # sert dist/ (nécessaire pour tester le service worker)
+npm run build      # produit docs/
+npm run preview    # sert docs/ (nécessaire pour tester le service worker)
 ```
 
 Le service worker n'est **pas** enregistré en développement : testez le mode hors
 connexion avec `npm run build && npm run preview`.
+
+Le build sort dans `docs/` (`build.outDir` de `vite.config.js`), dossier que
+GitHub Pages sait servir directement. Il est ignoré par git : retirez la ligne
+`docs/` de `.gitignore` si vous voulez le versionner pour une publication.
 
 ## Ce que fait l'application
 
