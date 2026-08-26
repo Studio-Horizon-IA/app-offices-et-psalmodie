@@ -11,8 +11,8 @@ Documentation d'architecture de l'application, dérivée du code de `src/`,
 | [04 — Stockage et caches](04-stockage.md) | Les trois stockages du navigateur, clés, durées de vie, purge |
 | [05 — États de l'interface](05-etats.md) | États de la vue de lecture, cycle des panneaux, navigation par adresse |
 
-Documents liés : [spécifications](../specs/README.md) ·
-[exigences](../requis/README.md).
+Documents liés : [fondations liturgiques](../fondations/README.md) ·
+[spécifications](../specs/README.md) · [exigences](../requis/README.md).
 
 ## Le système en une phrase
 

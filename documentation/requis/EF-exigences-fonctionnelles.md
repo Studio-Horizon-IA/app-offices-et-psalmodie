@@ -30,6 +30,7 @@ Conventions d'identifiants, de priorité et de statut : voir le
 | EF-NAV-06 | Le tiroir indique quels offices sont déjà lisibles hors connexion. | S | Déduit | ✅ |
 | EF-NAV-07 | Les heures sont accompagnées de leur horaire indicatif. | C | Déduit | ✅ |
 | EF-NAV-08 | L'application propose des raccourcis d'ouverture directe (Laudes, Vêpres, Complies, Messe) depuis l'icône installée. | C | Déduit | ✅ |
+| EF-NAV-09 | La semaine du psautier (I à IV) est affichée avec le jour ; les fêtes indiquent « Psaumes propres » ; rien n'est affiché quand le calendrier ne permet pas de conclure. | S | Fondations | ✅ Voir [Psautier et tons](../fondations/psautier-et-tons.md) |
 
 ## EF-PARAM — Réglages
 
@@ -65,6 +66,8 @@ Conventions d'identifiants, de priorité et de statut : voir le
 | EF-PSAL-13 | L'allure du chant est réglable, pour suivre en apprenant. | S | Déduit du but (`apprendre aux néophytes`) | ✅ Lente / normale / vive |
 | EF-PSAL-14 | Le pointage et le chant s'appliquent à **toutes** les parties psalmodiées de **tous** les offices. | M | Croquis 2 (`APPLIQUER À CHAQUES PARTIES DE CHAQUE OFFICE`) | ✅ 12 parties vérifiées, dont le psaume de la messe |
 | EF-PSAL-15 | Le texte affiché ne peut en aucun cas différer de celui de l'AELF ; en cas d'écart de reconstruction, l'application renonce au pointage. | M | Technique | ✅ |
+| EF-PSAL-16 | Le ton est mémorisé **par office** ; le ton des paramètres sert de repli et reste modifiable. | S | Fondations | ✅ |
+| EF-PSAL-17 | L'application explique à quoi tient le choix du ton (antienne, semaine du psautier, fêtes, diversité des usages). | S | Fondations (but du croquis 2 : apprendre aux néophytes) | ✅ Dépliant de la feuille Psalmodie |
 
 ## EF-OFF — Mode hors connexion
 

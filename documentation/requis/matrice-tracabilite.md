@@ -72,6 +72,7 @@ numéro de ligne, afin de rester justes après remaniement.
 | EF-NAV-06 | `ui/drawer-jour.js › marquerDisponibles` · `data/cache.js › estEnCache` | D — pastilles vertes après préchargement |
 | EF-NAV-07 | `data/offices.js › OFFICES.heure` | D |
 | EF-NAV-08 | `public/manifest.webmanifest › shortcuts` | I |
+| EF-NAV-09 | `data/psautier.js › semainePsautier` · `ui/drawer-jour.js` · `ui/liturgie.js` | D — « Psautier I » le 25 août, « Psaumes propres » le 8 septembre, rien le 5 janvier |
 | EF-PARAM-01 | `ui/drawer-parametres.js › rendreTiroirParametres` | D |
 | EF-PARAM-02 | `data/offices.js › REGIONS` | D |
 | EF-PARAM-03 | `main.js › initTiroirParametres({rafraichir})` | I |
@@ -96,6 +97,8 @@ numéro de ligne, afin de rester justes après remaniement.
 | EF-PSAL-13 | `core/store.js › allureChant` | I |
 | EF-PSAL-14 | `data/sections.js › psalmodiable` | D — 12 parties, 12 pointées, 0 repli |
 | EF-PSAL-15 | `ui/chant-psaume.js` (comparaison hors blancs) | D — le psaume de la messe a d'abord été refusé, puis accepté après correction |
+| EF-PSAL-16 | `core/store.js › tonCourant / reglerTonCourant` | D — choix du ton VIII aux vêpres : `tonsParOffice = {"vepres":"VIII"}` persisté |
+| EF-PSAL-17 | `ui/psalmodie.js › noteDUsage` | D — dépliant « Comment se choisit le ton ? » |
 | EF-OFF-01 | `data/cache.js` · `data/aelf.js › chargerOffice` | D — réseau coupé, office lu depuis la réserve |
 | EF-OFF-02 | `data/aelf.js › officesAPrecharger` | I |
 | EF-OFF-03 | `data/aelf.js › precharger` · bouton « Lancer » | D |
@@ -151,7 +154,7 @@ numéro de ligne, afin de rester justes après remaniement.
 
 | Ensemble | Réalisé | Partiel | Non réalisé |
 | --- | --- | --- | --- |
-| Exigences fonctionnelles (65) | 63 | 1 (EF-LIT-03) | 1 (EF-PSAL-08, *won't*) |
+| Exigences fonctionnelles (68) | 66 | 1 (EF-LIT-03) | 1 (EF-PSAL-08, *won't*) |
 | Exigences non fonctionnelles (64) | 59 | 2 (ENF-A11Y-11, ENF-COMPAT-01) | 3 (ENF-I18N-04, ENF-MAINT-07, ENF-EXPL-06, tous *won't*) |
 
 Restes à traiter pour une mise en service : mesure effective des contrastes

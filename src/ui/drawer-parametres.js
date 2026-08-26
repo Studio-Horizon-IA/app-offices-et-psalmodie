@@ -1,6 +1,6 @@
 import { el, vider, $ } from '../util/dom.js';
 import { store, reglerParametre } from '../core/store.js';
-import { REGIONS } from '../data/offices.js';
+import { REGIONS, OFFICES_PAR_ID } from '../data/offices.js';
 import { TONS } from '../audio/tons.js';
 import { INSTRUMENTS } from '../audio/synthese.js';
 import { statistiquesCache } from '../data/cache.js';
@@ -125,12 +125,30 @@ export function rendreTiroirParametres() {
       {},
       titre('Psalmodie'),
       ligneChoix(
-        'Ton',
+        'Ton par défaut',
         null,
         TONS.map((t) => ({ id: t.id, nom: `${t.nom} — ${t.mode}` })),
         p.ton,
         (ton) => reglerParametre({ ton })
       ),
+      el(
+        'p.reglage-aide',
+        { style: 'padding:.15rem 1.1rem .5rem' },
+        'Chaque office retient le ton choisi dans la feuille Psalmodie ; ce ton-ci sert aux offices sans choix propre.'
+      ),
+      Object.keys(p.tonsParOffice ?? {}).length
+        ? ligneAction(
+            'Oublier les tons par office',
+            Object.entries(p.tonsParOffice)
+              .map(([id, ton]) => `${OFFICES_PAR_ID[id]?.nom ?? id} : ${ton}`)
+              .join(' · '),
+            'Réinitialiser',
+            () => {
+              reglerParametre({ tonsParOffice: {} });
+              rendreTiroirParametres();
+            }
+          )
+        : null,
       ligneChoix('Instrument', null, INSTRUMENTS, p.instrument, (instrument) =>
         reglerParametre({ instrument })
       ),

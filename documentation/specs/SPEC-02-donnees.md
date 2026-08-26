@@ -20,7 +20,8 @@ Clé `localStorage` : `offices.parametres.v1`.
 | Champ | Type | Défaut | Valeurs | Effet |
 | --- | --- | --- | --- | --- |
 | `region` | `string` | `'france'` | `romain`, `france`, `canada`, `belgique`, `luxembourg`, `suisse`, `afrique` | Zone AELF interrogée ; participe à la clé de cache |
-| `ton` | `string` | `'II'` | `I`…`VIII`, `peregrinus` | Ton proposé par la feuille psalmodie |
+| `ton` | `string` | `'II'` | `I`…`VIII`, `peregrinus` | Ton par défaut, pour les offices sans ton propre |
+| `tonsParOffice` | `objet` | `{}` | `{ laudes: 'I', … }` | Ton retenu office par office, alimenté par la feuille psalmodie |
 | `instrument` | `string` | `'piano'` | `piano`, `orgue`, `voix` | Timbre de la synthèse |
 | `nuit` | `boolean \| null` | `null` | `null` = suit le système | Thème `data-theme` |
 | `tailleTexte` | `number` | `1` | `0,80` → `2,20` | Variable CSS `--texte-scale` |

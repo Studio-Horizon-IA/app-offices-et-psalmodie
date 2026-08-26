@@ -4,9 +4,10 @@ const CLE = 'offices.parametres.v1';
 
 const PAR_DEFAUT = {
   // Lectures
-  region: 'france',
+  region: 'canada',
   // Psalmodie
-  ton: 'II',
+  ton: 'II', // ton par défaut, quand l'office n'en a pas de propre
+  tonsParOffice: {}, // { laudes: 'I', vepres: 'VIII', … }
   instrument: 'piano',
   afficherNotes: true, // notes posées au-dessus des syllabes
   allureChant: 1, // 0,75 = lent (apprentissage), 1,25 = vif
@@ -69,4 +70,20 @@ export function reglerParametre(champs) {
 export function reglerVue(champs) {
   Object.assign(store.vue, champs);
   notifier('vue');
+}
+
+/**
+ * Ton psalmodique de l'office affiché. En usage, c'est l'antienne du jour qui
+ * commande le ton : on ne chante pas les laudes et les complies sur le même.
+ * Chaque office garde donc le sien, avec le ton général comme repli.
+ */
+export function tonCourant() {
+  const { tonsParOffice, ton } = store.parametres;
+  return tonsParOffice?.[store.vue.office] ?? ton;
+}
+
+export function reglerTonCourant(id) {
+  reglerParametre({
+    tonsParOffice: { ...store.parametres.tonsParOffice, [store.vue.office]: id },
+  });
 }

@@ -1,6 +1,7 @@
 import { el, vider, $, icone, ICONES } from '../util/dom.js';
 import { OFFICES } from '../data/offices.js';
 import { estEnCache } from '../data/cache.js';
+import { semainePsautier } from '../data/psautier.js';
 import { store } from '../core/store.js';
 import { ajouterJours, etiquetteDate, formatLong, capitaliser, iso } from '../util/date.js';
 
@@ -33,12 +34,17 @@ function enteteJour(informations) {
     etiquetteDate(date)
   );
 
+  const psautier = semainePsautier(informations);
+
   return el(
     'div.drawer-entete',
     {},
     el('h2', {}, informations?.ligne1 ? capitaliser(informations.ligne1) : capitaliser(formatLong(date))),
     informations?.fete ? el('p.fete', {}, informations.fete) : null,
     informations?.ligne3 ? el('p', {}, informations.ligne3) : null,
+    psautier.type === 'inconnu'
+      ? null
+      : el('p.psautier', { title: psautier.detail }, psautier.libelle),
     el(
       'div.date-nav',
       {},

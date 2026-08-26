@@ -25,6 +25,7 @@ flowchart TB
         sections["data/sections.js<br/>découpage en sections/blocs"]
         pointage["data/pointage.js<br/>versets, hémistiches, syllabes"]
         syllabes["data/syllabes.js"]
+        psautier["data/psautier.js<br/>semaine du psautier"]
     end
 
     subgraph L1["Socle"]
@@ -44,7 +45,7 @@ flowchart TB
     chant --> dom & sanit & pointage & chantmod & tons & synth & store & coquille
     pointage --> syllabes
     chantmod --> pointage
-    tjour --> dom & offices & cache & store & date
+    tjour --> dom & offices & cache & store & date & psautier
     tparam --> dom & store & offices & cache & tons & synth & coquille
     psal --> dom & store & tons & synth & coquille
     aelf --> cache & offices & date
@@ -101,6 +102,7 @@ flowchart TB
 | `data/offices.js` | Catalogue des 9 entrées, 7 zones AELF, couleurs liturgiques, `officeDuMoment()` | Table de couleurs distincte en mode nuit |
 | `data/sections.js` | Transformation d'une réponse AELF en `Section[]` / `Bloc[]` | Plan unique pour toutes les heures ; les sections vides disparaissent |
 | `data/pointage.js` | Découpage d'un psaume en versets, lignes et syllabes accentuées | S'appuie sur le pointage que l'AELF fournit déjà (`<u>`, `*`, `+`) |
+| `data/psautier.js` | Semaine du psautier (I à IV) d'un jour donné | Renvoie « inconnu » plutôt que de deviner ; voir [fondations](../fondations/psautier-et-tons.md) |
 | `data/syllabes.js` | Découpage syllabique du français | Règles scolaires ; la reconstruction du mot est toujours exacte |
 
 ### Socle

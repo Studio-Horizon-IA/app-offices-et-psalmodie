@@ -15,6 +15,13 @@ Apprendre à psalmodier. Trois niveaux, du plus abstrait au plus concret :
 Les formules restent volontairement simplifiées (une cadence courante par ton,
 pas l'ensemble des différences), ce que l'interface indique.
 
+> [!NOTE]
+> **Le ton ne se déduit pas des données.** En usage, c'est l'antienne qui
+> commande le ton : son mode l'impose, et la terminaison retenue ramène à sa
+> première note. L'AELF publie le texte des antiennes, jamais leur mélodie —
+> le choix revient donc à l'utilisateur, et l'application le mémorise par
+> office. Voir [Psautier et tons psalmodiques](../fondations/psautier-et-tons.md).
+
 ## Les neuf tons
 
 | `id` | Nom | Mode | Intonation | Teneur | Médiante | Terminaison |

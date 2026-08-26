@@ -2,6 +2,7 @@ import { el, vider, $, icone, ICONES } from '../util/dom.js';
 import { htmlSur } from '../util/sanitize.js';
 import { formatLong, capitaliser } from '../util/date.js';
 import { initChant, monterPsalmodie, arreterChant } from './chant-psaume.js';
+import { semainePsautier } from '../data/psautier.js';
 
 /** Affichage des sections d'un office, avec onglets et balayage gauche/droite. */
 
@@ -146,13 +147,19 @@ export function rendreSection({ section, office, informations, date, source, hor
     );
   }
 
+  const psautier = semainePsautier(informations);
   const entete = el('header.office-entete');
   entete.append(el('h1', {}, office.nom));
   entete.append(
     el(
       'p',
       {},
-      [capitaliser(formatLong(date)), informations?.fete, section?.titre]
+      [
+        capitaliser(formatLong(date)),
+        informations?.fete,
+        psautier.type === 'inconnu' ? null : psautier.libelle,
+        section?.titre,
+      ]
         .filter(Boolean)
         .join(' · ')
     )

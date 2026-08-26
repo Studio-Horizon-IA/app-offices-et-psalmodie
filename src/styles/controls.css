@@ -23,6 +23,44 @@
   font-weight: 600;
 }
 
+/* Semaine du psautier : information de cycle, pas de titre. */
+.drawer-entete .psautier {
+  display: inline-block;
+  margin-top: 0.45rem;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--trait);
+  border-radius: 999px;
+  background: var(--fond);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: var(--encre-douce);
+  cursor: help;
+}
+
+/* Note d'usage dépliable de la feuille psalmodie. */
+.psalmodie-note {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--trait);
+  font-size: 0.85rem;
+  color: var(--encre-douce);
+}
+
+.psalmodie-note summary {
+  cursor: pointer;
+  color: var(--liturgique);
+  font-weight: 600;
+}
+
+.psalmodie-note p {
+  margin: 0.6rem 0 0;
+  line-height: 1.5;
+}
+
+.psalmodie-note strong {
+  color: var(--encre);
+}
+
 /* Navigation de date */
 .date-nav {
   display: flex;

@@ -4,7 +4,7 @@ import { pointerPsaume } from '../data/pointage.js';
 import { planVerset, planPsaume } from '../audio/chant.js';
 import { TONS_PAR_ID, TONS, nomFrancais } from '../audio/tons.js';
 import { jouerSequence, arreter, audioDisponible } from '../audio/synthese.js';
-import { store } from '../core/store.js';
+import { store, tonCourant } from '../core/store.js';
 import { message } from './coquille.js';
 
 /**
@@ -204,7 +204,7 @@ export function monterPsalmodie(article, bloc) {
   const versets = pointerPsaume(bloc.html);
   if (!versets.length) return false;
 
-  const ton = TONS_PAR_ID[store.parametres.ton] ?? TONS[0];
+  const ton = TONS_PAR_ID[tonCourant()] ?? TONS[0];
   const spans = new Map();
 
   const corps = el('div.bloc-corps.psalmodie-texte');
