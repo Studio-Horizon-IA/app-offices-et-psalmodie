@@ -7,6 +7,7 @@ import { jouerSequence, arreter, audioDisponible } from '../audio/synthese.js';
 import { store, tonCourant } from '../core/store.js';
 import { message } from './coquille.js';
 import { initBandeau, afficherBandeau, suivreEtape, reposBandeau } from './bandeau-partition.js';
+import { legendePsalmodie, tutorielActif } from './tutoriel.js';
 
 /**
  * Vue psalmodique d'un psaume : le texte pointé de l'AELF, les notes posées
@@ -308,14 +309,23 @@ export function monterPsalmodie(article, bloc) {
     )
   );
 
-  // Le corps d'origine cède la place au texte pointé.
-  // La partition du ton reste sous les yeux tant qu'un psaume est à l'écran.
-  afficherBandeau(ton);
+  // Le corps d'origine cède la place au texte pointé. En mode tutoriel, la
+  // partition du ton reste sous les yeux tant qu'un psaume est à l'écran ;
+  // sinon le bas de l'écran est rendu au texte.
+  if (tutorielActif()) afficherBandeau(ton);
 
   article.querySelector('.bloc-corps')?.replaceWith(corps);
   article.append(barre);
+  const legende = legendePsalmodie();
+  if (legende) article.append(legende);
   article.classList.add('psalmodie');
-  article.classList.add(`notation-${store.parametres.notation ?? 'tetes'}`);
+  // Hors tutoriel, la feuille est nue : le texte pointé garde son trait de
+  // teneur, ses accents et ses marques, mais plus rien ne surplombe les
+  // syllabes. Qui connaît le ton n'a pas besoin qu'on le lui redise à chaque
+  // verset.
+  article.classList.add(
+    `notation-${tutorielActif() ? store.parametres.notation ?? 'tetes' : 'aucune'}`
+  );
 
   return true;
 }

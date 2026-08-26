@@ -60,6 +60,11 @@ export const ICONES = {
   ],
   telecharger: 'M12 3v12m0 0l-4-4m4 4l4-4M4 19h16',
   corbeille: 'M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13',
+  aide: [
+    'M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18z',
+    'M9.6 9.2a2.5 2.5 0 1 1 3.3 2.4c-.6.2-.9.7-.9 1.3v.6',
+    'M12 17h.01',
+  ],
   play: 'M8 5l11 7-11 7z',
   stop: 'M7 7h10v10H7z',
 };

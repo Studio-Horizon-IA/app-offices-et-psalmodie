@@ -11,6 +11,9 @@ const PAR_DEFAUT = {
   instrument: 'piano',
   notation: 'tetes', // 'tetes' | 'noms' | 'aucune' — au-dessus des syllabes
   allureChant: 1, // 0,75 = lent (apprentissage), 1,25 = vif
+  // Modes
+  modeTutoriel: true, // légende des signes + visite guidée
+  tutorielVu: false, // la visite ne se propose qu'une fois
   // Affichage
   nuit: null, // null = suit le système
   tailleTexte: 1,

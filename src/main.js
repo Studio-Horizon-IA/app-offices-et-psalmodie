@@ -18,6 +18,7 @@ import { initLecture, rendreOnglets, rendreSection, rendreChargement, rendreErre
 import { initTiroirJour, rendreTiroirJour } from './ui/drawer-jour.js';
 import { initTiroirParametres, rendreTiroirParametres, majProgres } from './ui/drawer-parametres.js';
 import { initPsalmodie, rendrePsalmodie } from './ui/psalmodie.js';
+import { initTutoriel } from './ui/tutoriel.js';
 import { enregistrerServiceWorker } from './pwa/enregistrement.js';
 
 let sections = [];
@@ -204,6 +205,7 @@ function init() {
   Object.assign(store.vue, lireAdresse());
 
   initPsalmodie();
+  initTutoriel();
   // Ces écouteurs précèdent ceux de la coquille : le panneau est donc rempli
   // avant d'être ouvert, jamais après.
   $('#btn-psalmodie').addEventListener('click', () => rendrePsalmodie());

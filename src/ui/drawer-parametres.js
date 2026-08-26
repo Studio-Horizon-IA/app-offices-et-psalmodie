@@ -5,6 +5,8 @@ import { TONS } from '../audio/tons.js';
 import { INSTRUMENTS } from '../audio/synthese.js';
 import { statistiquesCache } from '../data/cache.js';
 import { appliquerTheme, appliquerTaille, appliquerTouchAction } from './coquille.js';
+import { lancerVisite } from './tutoriel.js';
+import { fermerPanneau } from './coquille.js';
 
 /** Tiroir de droite : tous les réglages du croquis. */
 
@@ -100,6 +102,42 @@ export function rendreTiroirParametres() {
 
   corps.append(el('div.drawer-entete', {}, el('h2', {}, 'Paramètres')));
 
+  /* Modes — ce qui s'active et se désactive d'un geste */
+  corps.append(
+    el(
+      'section.groupe',
+      {},
+      titre('Modes'),
+      ligneBascule(
+        'Mode tutoriel',
+        'Partition du ton en bas d’écran, notes au-dessus des syllabes, légende, explications et visite guidée. Éteint, il ne reste que le texte pointé.',
+        p.modeTutoriel !== false,
+        (modeTutoriel) => {
+          reglerParametre({ modeTutoriel });
+          // Le tiroir se redessine : la visite guidée et le choix de notation
+          // n'ont plus lieu d'être quand le mode s'éteint.
+          rendreTiroirParametres();
+          actions.rafraichir();
+        }
+      ),
+      p.modeTutoriel === false
+        ? null
+        : ligneAction('Visite guidée', 'Reprendre les explications depuis le début.', 'Lancer', () => {
+            fermerPanneau();
+            setTimeout(() => lancerVisite(), 320);
+          }),
+      ligneBascule(
+        'Mode nuit',
+        'Fond sombre et encre chaude pour les offices de nuit.',
+        document.documentElement.dataset.theme === 'nuit',
+        (valeur) => {
+          reglerParametre({ nuit: valeur });
+          appliquerTheme();
+        }
+      )
+    )
+  );
+
   /* Lectures */
   corps.append(
     el(
@@ -152,29 +190,35 @@ export function rendreTiroirParametres() {
       ligneChoix('Instrument', null, INSTRUMENTS, p.instrument, (instrument) =>
         reglerParametre({ instrument })
       ),
-      el(
-        'div.reglage',
-        {},
-        el(
-          'span.reglage-texte',
-          {},
-          el('span.reglage-nom', {}, 'Notation au-dessus des syllabes'),
-          el('span.reglage-aide', {}, 'Têtes de note à leur hauteur, nom des notes, ou rien.')
-        )
-      ),
-      segments(
-        'Notation',
-        [
-          { id: 'tetes', nom: 'Notes' },
-          { id: 'noms', nom: 'Noms' },
-          { id: 'aucune', nom: 'Aucune' },
-        ],
-        p.notation ?? 'tetes',
-        (notation) => {
-          reglerParametre({ notation });
-          actions.rafraichir();
-        }
-      ),
+      // La notation appartient au mode tutoriel : hors de lui, rien ne
+      // surplombe les syllabes et le réglage n'aurait plus de prise.
+      p.modeTutoriel === false
+        ? null
+        : el(
+            'div.reglage',
+            {},
+            el(
+              'span.reglage-texte',
+              {},
+              el('span.reglage-nom', {}, 'Notation au-dessus des syllabes'),
+              el('span.reglage-aide', {}, 'Têtes de note à leur hauteur, nom des notes, ou rien.')
+            )
+          ),
+      p.modeTutoriel === false
+        ? null
+        : segments(
+            'Notation',
+            [
+              { id: 'tetes', nom: 'Notes' },
+              { id: 'noms', nom: 'Noms' },
+              { id: 'aucune', nom: 'Aucune' },
+            ],
+            p.notation ?? 'tetes',
+            (notation) => {
+              reglerParametre({ notation });
+              actions.rafraichir();
+            }
+          ),
       el(
         'div.reglage',
         {},
@@ -225,15 +269,6 @@ export function rendreTiroirParametres() {
       'section.groupe',
       {},
       titre('Affichage'),
-      ligneBascule(
-        'Mode nuit',
-        'Fond sombre et encre chaude pour les offices de nuit.',
-        document.documentElement.dataset.theme === 'nuit',
-        (valeur) => {
-          reglerParametre({ nuit: valeur });
-          appliquerTheme();
-        }
-      ),
       el('div.reglage', {}, el('span.reglage-texte', {}, el('span.reglage-nom', {}, 'Taille du texte'))),
       el('div.curseur', {}, curseur, apercu),
       ligneBascule(

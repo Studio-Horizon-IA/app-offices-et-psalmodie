@@ -6,6 +6,7 @@ import { TONS, TONS_PAR_ID, nomFrancais } from '../audio/tons.js';
 import { rendrePortee } from './portee.js';
 import { INSTRUMENTS, jouerTon, arreter, enLecture, audioDisponible } from '../audio/synthese.js';
 import { message } from './coquille.js';
+import { tutorielActif } from './tutoriel.js';
 
 /** Feuille du bas : choix du ton, portée de repère et écoute. */
 
@@ -83,7 +84,7 @@ export function rendrePsalmodie() {
   );
 
   corps.append(el('div.psalmodie-actions', {}, boutonJouer));
-  corps.append(noteDUsage(office));
+  if (tutorielActif()) corps.append(noteDUsage(office));
   majBoutonJouer();
 }
 
