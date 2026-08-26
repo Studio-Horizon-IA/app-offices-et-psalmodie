@@ -1,6 +1,5 @@
 node_modules/
 # Sortie du build (vite.config.js › build.outDir).
-# À retirer si le dossier doit être versionné, par exemple pour GitHub Pages.
-docs/
+.vite
 .DS_Store
 *.local
