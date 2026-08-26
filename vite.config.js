@@ -8,14 +8,21 @@ const VERSION_TOKEN = '__BUILD_ID__';
 /** Dossier de sortie du build. */
 const DOSSIER_SORTIE = 'docs';
 
-/** Fichiers jamais utiles hors connexion (sources de cartes, archives, etc.). */
-const SKIP = /\.(map|txt)$/;
+/**
+ * Fichiers jamais utiles hors connexion : sources de cartes, fichiers texte, et
+ * marqueurs cachés comme `.nojekyll` (qui n'existe que pour GitHub Pages).
+ */
+const SKIP = /\.(map|txt)$|(^|\/)\.[^/]+$/;
 
+/**
+ * Chemins relatifs (`./assets/…`) et non absolus : dans le service worker ils
+ * sont résolus par rapport à `sw.js`, donc au préfixe réel de publication.
+ */
 function listFiles(dir, root = dir) {
   return readdirSync(dir).flatMap((entry) => {
     const full = join(dir, entry);
     if (statSync(full).isDirectory()) return listFiles(full, root);
-    return ['/' + relative(root, full).split(sep).join(posix.sep)];
+    return ['./' + relative(root, full).split(sep).join(posix.sep)];
   });
 }
 
@@ -38,10 +45,10 @@ function serviceWorkerManifest() {
     closeBundle() {
       const swPath = join(dossier, 'sw.js');
       const assets = listFiles(dossier)
-        .filter((f) => f !== '/sw.js' && !SKIP.test(f))
+        .filter((f) => f !== './sw.js' && !SKIP.test(f))
         .sort();
       const source = readFileSync(swPath, 'utf8')
-        .replace(`'${PRECACHE_TOKEN}'`, JSON.stringify(['/', ...assets]))
+        .replace(`'${PRECACHE_TOKEN}'`, JSON.stringify(['./', ...assets]))
         .replace(VERSION_TOKEN, String(Date.now()));
       writeFileSync(swPath, source);
       // eslint-disable-next-line no-console
@@ -51,6 +58,9 @@ function serviceWorkerManifest() {
 }
 
 export default defineConfig({
+  // Base relative : le site fonctionne à la racine d'un domaine comme sous un
+  // préfixe (`<compte>.github.io/<dépôt>/`), sans build spécifique à l'hôte.
+  base: './',
   plugins: [serviceWorkerManifest()],
   server: { port: 5173 },
   build: { target: 'es2020', sourcemap: true, outDir: DOSSIER_SORTIE, emptyOutDir: true },

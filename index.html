@@ -12,9 +12,11 @@
     <meta name="theme-color" content="#14110e" media="(prefers-color-scheme: dark)" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Offices" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/icons/icon-180.png" />
+    <!-- %BASE_URL% suit `base` de vite.config.js : la coquille reste valable
+         quel que soit le préfixe de publication. -->
+    <link rel="manifest" href="%BASE_URL%manifest.webmanifest" />
+    <link rel="icon" href="%BASE_URL%icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="%BASE_URL%icons/icon-180.png" />
     <script type="module" src="/src/main.js"></script>
   </head>
   <body>

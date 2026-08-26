@@ -68,7 +68,7 @@ second filet de sécurité hors connexion (voir [04 — Stockage](04-stockage.md
 ```mermaid
 flowchart LR
     dev["Poste de développement"] -->|"npm run build"| dist["docs/<br/>index.html · assets/*.hachés<br/>sw.js · manifest · icônes"]
-    dist -->|"copie"| cdn[["Hébergement statique HTTPS<br/>(racine du domaine)"]]
+    dist -->|"copie"| cdn[["Hébergement statique HTTPS<br/>(racine ou sous-chemin)"]]
     cdn --> nav["Navigateur"]
     nav -->|"install PWA"| ecran["Icône sur l'écran d'accueil"]
 ```
@@ -77,12 +77,21 @@ Contraintes de déploiement :
 
 - **HTTPS obligatoire** (ou `localhost`) : sans lui, ni service worker ni
   installation PWA.
-- **Servi à la racine** du domaine : `start_url`, `scope` et l'enregistrement du
-  service worker valent `/`. Un déploiement en sous-répertoire demanderait
-  d'ajuster `manifest.webmanifest`, `enregistrerServiceWorker()` et `base` dans
-  `vite.config.js`.
+- **Indifférent au préfixe d'URL** : `base: './'` et des références relatives
+  partout (`%BASE_URL%` dans la coquille, `start_url`/`scope` relatifs dans le
+  manifeste, service worker enregistré sur `${import.meta.env.BASE_URL}sw.js`,
+  précache en `./…`). Le même build sert à la racine d'un domaine comme sous
+  `<compte>.github.io/<dépôt>/`.
 - **Aucune configuration serveur** : pas de réécriture d'URL nécessaire, la
-  navigation interne se fait dans le fragment (`#/…`).
+  navigation interne se fait dans le fragment (`#/…`). C'est aussi ce qui rend
+  GitHub Pages suffisant : Pages ne sait pas faire de repli SPA.
+- **Jekyll désactivé** par le marqueur `docs/.nojekyll`, sans quoi Pages
+  écarterait les fichiers commençant par `_`.
+
+Une réplique locale de cet hébergement est fournie (`Dockerfile` +
+`docker/pages*.conf`) : nginx y sert `docs/` avec les mêmes règles que Pages, à
+la racine sur le port 8080 et sous `/<dépôt>/` sur le port 8081, afin de
+vérifier les deux modes de publication avant mise en ligne.
 
 ## Chaîne de construction
 

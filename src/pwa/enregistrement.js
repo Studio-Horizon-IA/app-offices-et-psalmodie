@@ -9,7 +9,10 @@ export function enregistrerServiceWorker() {
 
   window.addEventListener('load', async () => {
     try {
-      const enregistrement = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+      // Le chemin suit `base` : « / » à la racine d'un domaine, « ./ » (donc le
+      // dossier de la page) pour une publication sous préfixe.
+      const base = import.meta.env.BASE_URL;
+      const enregistrement = await navigator.serviceWorker.register(`${base}sw.js`, { scope: base });
 
       enregistrement.addEventListener('updatefound', () => {
         const nouveau = enregistrement.installing;
